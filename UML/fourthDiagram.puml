@@ -1,0 +1,105 @@
+@startuml
+class User
+class Component
+class Project
+class Task
+class Interval
+class Clock
+
+
+User-->Component
+Component <|-- Task
+Component <|-- Project: father 
+Project "1" o-- "*" Component : children
+Task "1"*-- "*" Interval
+
+class User{
++main()
+}
+
+class Clock{
+<size:10> Observable </size>
+{static}-instance: Clock
+-Clock()
++getInstance(): Clock
+}
+
+class Component{
+-name: string
+-parent: Component
+-tags: ArrayList<string>
+-startDate: LocalDateTime
+-endDate: LocalDateTime
+-creationDate: LocalDateTime
+-duration: long float
++getName(): string
++getParent(): Component
++getTags(): ArrayList<string>
++getStartDate(): LocalDateTime
++getEndDate(): LocalDateTime
++getCreationDate(): LocalDateTime
++getDuration(): long float
++setName(name: string)
++setParent(parent: Component)
++setTags(tags: ArrayList<string>)
++setStartDate(startDate: LocalDateTime)
++setEndDate(endDte: LocalDateTime)
++setCreationDate(creationDate: LocalDateTime)
++setDuration(duration: long float)
++void addComponent()
++void deleteComponent()
++void addTag(tag: string)
++void deleteTag(tag: string)
+
+}
+
+class Project{
+<size:10> Composite </size>
++Project(name: string, parent: Component)
++void update()
++getChild(): ArrayList<Component>
+}
+
+class Task{
++Task(name: string, parent: Component)
+-intervals: ArrayList<Interval>
++getIntervals(): ArrayList<Interval>
++setIntervals(intervals: ArrayList<Interval>)
++void startTask()
++void stopTask()
++void update()
+}
+
+class Interval{
+-startTime: LocalDateTime
+-endTime: LocalDateTime
+-duration: long float
++void calculateTime()
++getStartTime(): LocalDateTime
++getEndTime(): LocalDateTime
++getDuration(): long float
++setStarTime(startTime: LocalDateTime)
++setEndTime(endTime: LocalDateTime)
++setDuration(duration: long float)
+}
+
+package "java.util"{
+abstract Observable
+interface Observer
+
+interface Observer{
++void update()
+}
+
+abstract Observable{
+-Observers
++void addObsever(Observer)
++void deleteObsever(Observer)
++void notifyObsevers()
+}
+
+Observable o-right-> Observer
+Observable <|-- Clock
+Observer <|.right.Interval
+}
+@enduml
