@@ -1,0 +1,79 @@
+@startuml
+class User
+class Component
+class Project
+class Task
+class Interval
+class Clock
+
+
+User-->Component
+Component <|-- Task
+Component <|-- Project: father 
+Project "1" o-- "*" Component : children
+Task "1"*-- "*" Interval
+
+class User{
+main()
+}
+
+class Clock{
+<size:10> Observable </size>
+void start()
+}
+
+class Component{
+name: string
+parent: string
+tags: ArrayList<string>
+dataInici: LocalDateTime
+dataFinal: LocalDateTime
+dataCreacio: LocalDateTime
+durada: long float
+void add()
+void delete()
+string getParent()
+}
+
+class Project{
+<size:10> Composite </size>
+Project(name: string)
+void update()
+string getChild()
+}
+
+class Task{
+Task(name: string)
+intervals: ArrayList
+void start()
+void stop()
+void update()
+}
+
+class Interval{
+inici: Date
+final: Date
+durada: long float
+void calculateTime()
+}
+
+package "java.util"{
+abstract Observable
+interface Observer
+
+interface Observer{
+void update()
+}
+
+abstract Observable{
+Observer: Observables[]
+void addObsever(Observer)
+void deleteObsever(Observer)
+void notifyObsevers()
+}
+
+Observable o-right-> Observer
+Observable <|-- Clock
+Observer <|.right.Interval
+}
+@enduml
