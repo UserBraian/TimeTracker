@@ -28,14 +28,22 @@ public class Component {
   public void addComponent(){
     //TODO
   }
+
   public void deleteComponent(){
     //TODO
   }
+
   void addTag(String tag) {
     this.tags.add(tag);
   }
+
   void deleteTag(String tag){
-    //TODO
+    //DONE
+    int index = this.tags.indexOf(tag);
+    if (index!=-1)
+      this.tags.remove(index);
+    else
+      System.out.println(tag+" -> Doesn't exist, impossible to remove");
   }
 }
 
