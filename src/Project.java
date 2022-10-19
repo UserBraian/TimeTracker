@@ -2,7 +2,8 @@ import java.util.ArrayList;
 
 public class Project extends Component {
   public Project(String name, Component parent) {
-    //TODO
+    //DONE
+    super(name,parent);
   }
   void update(){
     //TODO

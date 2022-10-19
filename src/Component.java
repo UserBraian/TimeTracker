@@ -10,6 +10,12 @@ public class Component {
   private LocalDateTime creationDate;
   private Double duration;
 
+  public Component(String name, Component parent) {
+    this.name=name;
+    this.parent=parent;
+    creationDate= LocalDateTime.now();
+  }
+
   public String getName() { return name; }
   public Component getParent() { return parent; }
   public ArrayList<String> getTags() { return tags; }
