@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Component {
+public abstract class Component {
   private String name;
   private Component parent;
   private ArrayList<String> tags;
@@ -10,10 +10,17 @@ public class Component {
   private LocalDateTime creationDate;
   private Double duration;
 
+
   public Component(String name, Component parent) {
-    this.name=name;
-    this.parent=parent;
-    creationDate= LocalDateTime.now();
+    this.name = name;
+    this.parent = parent;
+    creationDate = LocalDateTime.now(); //cambiar
+
+    //--Comprobar que una tarea no puede ser padre, por lo tanto no puede ser creada.-- TODO
+    //Con esto creamos los el arbol de hijos COMPROBADO EN DEBUG
+    if (parent != null) {
+      parent.addComponent(this);
+    }
   }
 
   public String getName() { return name; }
@@ -31,12 +38,12 @@ public class Component {
   public void setCreationDate(LocalDateTime creationDate) { this.creationDate = creationDate; }
   public void setDuration(Double duration) { this.duration = duration;}
 
-  public void addComponent(){
-    //TODO
+  public void addComponent(Component child){
+    //ABSTRACT, implementado solo en Project, que es el unico que puede tener hijos.
   }
 
-  public void deleteComponent(){
-    //TODO
+  public void deleteComponent(Component child){
+    //ABSTRACT, implementado solo en Project, que es el unico que puede tener hijos.
   }
 
   void addTag(String tag) {

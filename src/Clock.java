@@ -1,5 +1,10 @@
-public class Clock {
+import java.time.LocalDateTime;
+import java.util.Observable;
+
+public class Clock extends Observable {
   private static Clock clock;
+  private LocalDateTime hour;
+  //añadir class observer para tener addobserver etc
   private String name;
  /*
  * Ya ques un constructor privado, no se genera por defecto por lo tanto
@@ -18,5 +23,15 @@ public class Clock {
     }
     return clock;
   }
+
+  public void timer(){
+    while (true) { ///vigilar este while true
+      hour = LocalDateTime.now();
+      setChanged();
+      //valorar poner un if y comprobar que el vector observadores no esten vacios
+      notifyObservers(hour); //
+    }
+  }
+
 }
 
