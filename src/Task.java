@@ -16,7 +16,7 @@ public class Task extends Component {
     if(intervals.isEmpty()){
       Interval i = new Interval();
       intervals.add(i);
-    } else if (intervals.get(-1).getEndTime()!=null) {
+    } else if (intervals.get(intervals.size()-1).getEndTime()!=null) {
       Interval i = new Interval();
       intervals.add(i);
     }

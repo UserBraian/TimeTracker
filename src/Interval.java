@@ -3,18 +3,21 @@ import java.util.Observable;
 import java.util.Observer;
 public class Interval implements Observer {
 
+
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
+  private Double duration;
+  private LocalDateTime aux;
+
   //constructor inicializar
   public Interval(){
     //suscribirse como observador
     Clock.getInstance().addObserver(this);
-    startTime=LocalDateTime.now();
+    startTime=Clock.getInstance().getHour();
+    this.update(Clock.getInstance(),Clock.getInstance().getHour());
+    startTime=aux;//no es
 
   }
-  private LocalDateTime startTime;
-  private LocalDateTime endTime;
-  private Double duration;
-
-  private LocalDateTime aux;
 
   //tiene que haber una intancia reloj para añadir observador
   //clock getintance().addobserver(this)

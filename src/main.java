@@ -2,6 +2,9 @@ public class main {
 
   public static void main(String args[]){
     Clock clock;
+    //mirar como funcionan los threads y que se cree el reloj en este
+    //si no queda en bucle infinito
+    //Clock.getInstance().timer();
 
     Project root=new Project("root",null);
     System.out.println("nom del projecte: "+root.getName());
