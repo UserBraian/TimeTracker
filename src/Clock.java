@@ -16,6 +16,13 @@ public class Clock extends Observable {
   private Clock(String name){
     this.name=name;
     this.timer=new Timer("Thread CLOCK");
+    timer.schedule(new TimerTask() {
+
+      @Override
+      public void run() {
+        tick();
+      }
+    }, 0, 1234);
   }
 /*SINGLETON PATTERN
 * Se ha seguido el patron singleton mas simple, sin tener en cuenta hilos
