@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class Clock extends Observable {
   private static Clock clock;
@@ -16,6 +17,13 @@ public class Clock extends Observable {
   private Clock(String name){
     this.name=name;
     this.timer=new Timer("Thread CLOCK");
+    timer.schedule(new TimerTask() {
+
+      @Override
+      public void run() {
+        tick();
+      }
+    }, 0, 1);
   }
 /*SINGLETON PATTERN
 * Se ha seguido el patron singleton mas simple, sin tener en cuenta hilos
@@ -32,7 +40,7 @@ public class Clock extends Observable {
     hour = LocalDateTime.now();
     setChanged();
     //valorar poner un if y comprobar que el vector observadores no esten vacios
-    notifyObservers(hour); //
+    notifyObservers(this); //
   }
 
   public LocalDateTime getHour(){

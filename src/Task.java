@@ -13,13 +13,17 @@ public class Task extends Component {
   public void setIntervals(ArrayList<Interval> intervals) { this.intervals = intervals; }
   public void startTask() {
     //TODO
-    if(intervals.isEmpty()){
-      Interval i = new Interval();
-      intervals.add(i);
-    } else if (intervals.get(intervals.size()-1).getEndTime()!=null) {
+    if(intervals.isEmpty() || !intervals.get(intervals.size()-1).hasEnded()){
       Interval i = new Interval();
       intervals.add(i);
     }
+    else {
+      System.out.println("Cannot start interval");
+    }
+    /*else if (intervals.get(intervals.size()-1).getEndTime()!=null) {
+      Interval i = new Interval();
+      intervals.add(i);
+    }*/
     //tmbn comprobar que no hayan intervalos en marcha endtime!=null
     //if(intervals.get(-1).getEndTime()!=null){
     //Interval i = new Interval();

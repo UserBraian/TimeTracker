@@ -1,10 +1,10 @@
 public class main {
 
   public static void main(String args[]){
-    Clock clock;
+    //Clock clock;
     //mirar como funcionan los threads y que se cree el reloj en este
     //si no queda en bucle infinito
-    //Clock.getInstance().timer();
+    Clock.getInstance();
 
     Project root=new Project("root",null);
     System.out.println("nom del projecte: "+root.getName());
@@ -44,7 +44,13 @@ public class main {
 
     t3.startTask();
     System.out.println("start time t3: "+t3.getIntervals().get(0).getStartTime());
-
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    t3.stopTask();
+    System.out.println("stop time t3: "+t3.getIntervals().get(0).getEndTime());
     /* Comprovar este caso tarea no puede ser padre
     Task t4=new Task("T4",t3);
     System.out.println("nom del projecte: "+t4.getName());

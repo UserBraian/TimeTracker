@@ -7,7 +7,8 @@ public class Interval implements Observer {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private Double duration;
-  private LocalDateTime aux;
+
+  private boolean end;
 
   //constructor inicializar
   public Interval(){
@@ -15,7 +16,7 @@ public class Interval implements Observer {
     Clock.getInstance().addObserver(this);
     startTime=Clock.getInstance().getHour();
     this.update(Clock.getInstance(),Clock.getInstance().getHour());
-    startTime=aux;//no es
+    //startTime=aux;//no es
 
   }
 
@@ -30,6 +31,10 @@ public class Interval implements Observer {
   public void stop(){
     //llamar observer, coger la hora y guardarlo en endTime
     //una vez esta parado llamamos a calculateTime para tener la duracion ya hecha
+    Clock.getInstance().addObserver(this);
+    endTime=Clock.getInstance().getHour();
+    this.update(Clock.getInstance(),Clock.getInstance().getHour());
+    end = true;
   }
   public LocalDateTime getStartTime() { return this.startTime; }
   public LocalDateTime getEndTime() { return  this.endTime; }
@@ -40,6 +45,10 @@ public class Interval implements Observer {
 
   @Override
   public void update(Observable o, Object arg) {
-    aux = (LocalDateTime) arg;
+
+  }
+
+  public boolean hasEnded() {
+    return end;
   }
 }
