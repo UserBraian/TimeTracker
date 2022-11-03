@@ -25,4 +25,8 @@ public class Project extends Component {
     //TODO
     return null;
   }
+
+  public void accept(Visitor v) {
+
+  }
 }

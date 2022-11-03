@@ -12,7 +12,6 @@ public class Task extends Component {
   public ArrayList<Interval> getIntervals() { return this.intervals; }
   public void setIntervals(ArrayList<Interval> intervals) { this.intervals = intervals; }
   public void startTask() {
-    //TODO
     if(intervals.isEmpty() || !intervals.get(intervals.size()-1).hasEnded()){
       Interval i = new Interval();
       intervals.add(i);
@@ -32,12 +31,15 @@ public class Task extends Component {
 
   }
   public void stopTask() {
-    //TODO
     int last = intervals.size()-1;
     Interval i = intervals.get(last);
     i.stop();
   }
   void update() {
     //TODO
+  }
+
+  public void accept(Visitor v) {
+
   }
 }
