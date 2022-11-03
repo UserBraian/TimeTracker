@@ -40,7 +40,7 @@ public class Clock extends Observable {
     hour = LocalDateTime.now();
     setChanged();
     //valorar poner un if y comprobar que el vector observadores no esten vacios
-    notifyObservers(this); //
+    notifyObservers(hour); //
   }
 
   public LocalDateTime getHour(){

@@ -19,7 +19,7 @@ public class Interval implements Observer {
   public Interval(){
     //suscribirse como observador
     Clock.getInstance().addObserver(this);
-    startTime=Clock.getInstance().getHour();
+    //startTime=Clock.getInstance().getHour();
     this.update(Clock.getInstance(),Clock.getInstance().getHour());
     //startTime=aux;//no es
 
@@ -35,10 +35,11 @@ public class Interval implements Observer {
   public void stop(){
     //llamar observer, coger la hora y guardarlo en endTime
     //una vez esta parado llamamos a calculateTime para tener la duracion ya hecha
-    Clock.getInstance().addObserver(this);
-    endTime=Clock.getInstance().getHour();
-    this.update(Clock.getInstance(),Clock.getInstance().getHour());
-    calculateTime();
+    Clock.getInstance().deleteObserver(this);
+    //endTime=Clock.getInstance().getHour();
+    //this.update(Clock.getInstance(),Clock.getInstance().getHour());
+    //calculateTime();
+    endTime = startTime.plus(duration);
     end = true;
   }
   public LocalDateTime getStartTime() { return this.startTime; }
@@ -50,7 +51,11 @@ public class Interval implements Observer {
 
   @Override
   public void update(Observable o, Object arg) {
-
+    LocalDateTime timeAux = (LocalDateTime) arg;
+    if(startTime == null) {
+      startTime = timeAux;
+    }
+    duration = between(startTime,timeAux);
   }
 
   public boolean hasEnded() {
