@@ -23,7 +23,7 @@ public class Clock extends Observable {
       public void run() {
         tick();
       }
-    }, 0, 1);
+    }, 0, 1000);
   }
 /*SINGLETON PATTERN
 * Se ha seguido el patron singleton mas simple, sin tener en cuenta hilos

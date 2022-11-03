@@ -18,15 +18,22 @@ public class Project extends Component {
     children.remove(child);
   }
 
-  void update(){
-    //TODO
+  public void update(){
+    for(Component component: children){
+      if(component.getStartDate() != null && component.getEndDate() != null) {
+        if(component.getStartDate().isBefore(getStartDate())){
+          setStartDate(component.getStartDate());
+        } else if (component.getEndDate().isAfter(getEndDate())) {
+          setEndDate(component.getEndDate());
+        }
+      }
+    }
   }
   public ArrayList<Component> getChild(){
-    //TODO
-    return null;
+    return this.children;
   }
 
-  public void accept(Visitor v) {
-
+  public void acceptVisitor(Visitor v) {
+    v.visitProject(this);
   }
 }

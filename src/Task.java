@@ -34,12 +34,15 @@ public class Task extends Component {
     int last = intervals.size()-1;
     Interval i = intervals.get(last);
     i.stop();
+    update();
   }
-  void update() {
-    //TODO
+  public void update() {
+    setStartDate(intervals.get(0).getStartTime());
+    setEndDate(intervals.get(intervals.size()-1).getEndTime());
+    getParent().update();
   }
 
-  public void accept(Visitor v) {
-
+  public void acceptVisitor(Visitor v) {
+    v.visitTask(this);
   }
 }

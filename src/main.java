@@ -45,7 +45,7 @@ public class main {
     t3.startTask();
     System.out.println("start time t3: "+t3.getIntervals().get(0).getStartTime());
     try {
-      Thread.sleep(2000);
+      Thread.sleep(1000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
@@ -59,6 +59,7 @@ public class main {
     System.out.println("creation: "+t4.getCreationDate());
     System.out.println("\n");
     */
+    Printer printer = new Printer(root);
 
 
 

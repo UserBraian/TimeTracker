@@ -30,7 +30,6 @@ public class Interval implements Observer {
   public void calculateTime(){
     //calcular duracion = end - start
     duration = between(startTime, endTime);
-
   }
 
   public void stop(){
@@ -56,5 +55,9 @@ public class Interval implements Observer {
 
   public boolean hasEnded() {
     return end;
+  }
+
+  public void acceptVisitor(Visitor v) {
+    v.visitInterval(this);
   }
 }

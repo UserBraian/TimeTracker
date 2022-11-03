@@ -59,7 +59,9 @@ public abstract class Component {
       System.out.println(tag+" -> Doesn't exist, impossible to remove");
   }
 
-  public abstract void accept(Visitor v);
+  public abstract void acceptVisitor(Visitor v);
+
+  public abstract void update();
 }
 
 
