@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.Duration;
 
 public class Task extends Component {
   private ArrayList<Interval> intervals;
@@ -37,8 +38,14 @@ public class Task extends Component {
     update();
   }
   public void update() {
+    Duration duration_task = Duration.ZERO;
     setStartDate(intervals.get(0).getStartTime());
-    setEndDate(intervals.get(intervals.size()-1).getEndTime());
+    for(Interval interval: intervals){
+      duration_task = duration_task.plus(interval.getDuration());
+    }
+    setDuration(duration_task);
+    setEndDate(getStartDate().plus(getDuration()));
+    //setEndDate(intervals.get(intervals.size()-1).getEndTime());
     getParent().update();
   }
 

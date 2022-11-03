@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.ArrayList;
 
 public abstract class Component {
@@ -8,7 +9,7 @@ public abstract class Component {
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   private LocalDateTime creationDate;
-  private Double duration;
+  private Duration duration;
 
 
   public Component(String name, Component parent) {
@@ -29,14 +30,14 @@ public abstract class Component {
   public LocalDateTime getStartDate() { return startDate; }
   public LocalDateTime getEndDate() { return endDate; }
   public LocalDateTime getCreationDate() { return creationDate; }
-  public Double getDuration() { return duration; }
+  public Duration getDuration() { return duration; }
   public void setName(String name) { this.name = name; }
   public void setParent(Component parent) { this.parent = parent; }
   public void setTags(ArrayList<String> tags) { this.tags = tags; }
   public void setStartDate(LocalDateTime startDate) {this.startDate = startDate; }
   public void setEndDate(LocalDateTime endDate) { this.endDate = endDate;}
   public void setCreationDate(LocalDateTime creationDate) { this.creationDate = creationDate; }
-  public void setDuration(Double duration) { this.duration = duration;}
+  public void setDuration(Duration duration) { this.duration = duration;}
 
   public void addComponent(Component child){
     //ABSTRACT, implementado solo en Project, que es el unico que puede tener hijos.
