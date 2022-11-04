@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 public class main {
 
-  public static void main(String args[]){
+  public static void main(String args[]) throws InterruptedException {
     //Clock clock;
     //mirar como funcionan los threads y que se cree el reloj en este
     //si no queda en bucle infinito
@@ -11,42 +13,67 @@ public class main {
       Thread.currentThread().interrupt();
     }
 
-    Project root=new Project("root",null);
-    System.out.println("nom del projecte: "+root.getName());
-    System.out.println("pare del projecte: "+root.getParent());
-    //System.out.println("creation: "+root.getCreationDate());
-    System.out.println("\n");
+    //APENDICE A
+    Project root=new Project("root",null, new ArrayList<String>());
+    Project softwaredesign=new Project("softwaredesign",root, new ArrayList<String>( Arrays.asList("java", "flutter")));
+    Project softwaretesting=new Project("sofwaretesting",root, new ArrayList<String>( Arrays.asList("c++", "Java", "python")));
+    Project databases=new Project("databases",root, new ArrayList<String>( Arrays.asList("SQL", "python", "C++")));
+    Task transportation = new Task("trasnportation",root, new ArrayList<String>());
+    Project problems=new Project("problems",softwaredesign, new ArrayList<String>());
+    Project timetracker=new Project("timetracker",softwaredesign, new ArrayList<String>());
+    Task firstlist = new Task("firstlist", problems,  new ArrayList<String>( Arrays.asList("java")));
+    Task secondlist = new Task("secondlist", problems, new ArrayList<String>(Arrays.asList("Dart")));
+    Task readhandout = new Task("readhandout", timetracker, new ArrayList<String>());
+    Task firstmilestone = new Task("firstmilestone", timetracker, new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
 
-    Project p1 = new Project("P1", root);
-    System.out.println("nom del projecte: "+p1.getName());
-    System.out.println("pare del projecte: "+p1.getParent().getName());
-    //System.out.println("creation: "+p1.getCreationDate());
-    System.out.println("\n");
+    //APENDIX B
+    transportation.startTask();
+    try {
+      Thread.sleep(4000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    transportation.stopTask();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
 
-    Project p2 = new Project("P2", root);
-    System.out.println("nom del projecte: "+p2.getName());
-    System.out.println("pare del projecte: "+p2.getParent().getName());
-    //System.out.println("creation: "+p2.getCreationDate());
-    System.out.println("\n");
+    firstlist.startTask();
+    try {
+      Thread.sleep(6000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
 
-    Task t1 = new Task("T1", root);
-    System.out.println("nom del projecte: "+t1.getName());
-    System.out.println("pare del projecte: "+t1.getParent().getName());
-    //System.out.println("creation: "+t1.getCreationDate());
-    System.out.println("\n");
+    secondlist.startTask();
+    try {
+      Thread.sleep(4000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
 
-    Task t2 = new Task("T2", p1);
-    System.out.println("nom del projecte: "+t2.getName());
-    System.out.println("pare del projecte: "+t2.getParent().getName());
-    //System.out.println("creation: "+t2.getCreationDate());
-    System.out.println("\n");
-
-    Task t3 = new Task("T3", p2);
-    System.out.println("nom del projecte: "+t3.getName());
-    System.out.println("pare del projecte: "+t3.getParent().getName());
-    //System.out.println("creation: "+t3.getCreationDate());
-    System.out.println("\n");
-
+    firstlist.stopTask();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    secondlist.stopTask();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    transportation.startTask();
+    try {
+      Thread.sleep(4000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    transportation.stopTask();
+    /*
     t3.startTask();
     System.out.println("start time t3: "+t3.getIntervals().get(0).getStartTime());
     try {
@@ -65,7 +92,7 @@ public class main {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
-    t2.stopTask();
+    t2.stopTask();*/
     /* Comprovar este caso tarea no puede ser padre
     Task t4=new Task("T4",t3);
     System.out.println("nom del projecte: "+t4.getName());

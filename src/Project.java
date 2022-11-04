@@ -3,9 +3,9 @@ import java.time.Duration;
 
 public class Project extends Component {
   public ArrayList<Component> children;
-  public Project(String name, Component parent) {
+  public Project(String name, Component parent, ArrayList<String> tags) {
     //DONE
-    super(name,parent);
+    super(name,parent,tags);
     children=new ArrayList<>();
   }
 

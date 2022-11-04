@@ -13,9 +13,10 @@ public abstract class Component {
   private Duration duration;
 
 
-  public Component(String name, Component parent) {
+  public Component(String name, Component parent, ArrayList<String> tags ) {
     this.name = name;
     this.parent = parent;
+    this.tags = tags;
     //creationDate = LocalDateTime.now(); //cambiar
 
     //--Comprobar que una tarea no puede ser padre, por lo tanto no puede ser creada.-- TODO

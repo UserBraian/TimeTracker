@@ -4,16 +4,16 @@ import java.time.Duration;
 public class Task extends Component {
   private ArrayList<Interval> intervals;
 
-  public Task(String name, Component parent) {
+  public Task(String name, Component parent, ArrayList<String> tags) {
     //DONE
-    super(name, parent);
+    super(name,parent,tags);
     intervals=new ArrayList<Interval>();
   }
 
   public ArrayList<Interval> getIntervals() { return this.intervals; }
   public void setIntervals(ArrayList<Interval> intervals) { this.intervals = intervals; }
   public void startTask() {
-    if(intervals.isEmpty() || !intervals.get(intervals.size()-1).hasEnded()){
+    if(intervals.isEmpty() || intervals.get(intervals.size()-1).hasEnded()){
       Interval i = new Interval();
       intervals.add(i);
     }
