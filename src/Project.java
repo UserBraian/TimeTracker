@@ -1,14 +1,18 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.time.Duration;
 
 public class Project extends Component {
+  /*---- ATRIBUTOS ----*/
   public ArrayList<Component> children;
+
+  /*---- CONSTRUCTOR ----*/
   public Project(String name, Component parent, ArrayList<String> tags) {
-    //DONE
     super(name,parent,tags);
     children=new ArrayList<>();
   }
 
+  /*---- METODOS ----*/
   @Override
   public void addComponent(Component child){
     children.add((child));
@@ -19,8 +23,38 @@ public class Project extends Component {
     children.remove(child);
   }
 
-  public void update(){
-    Duration duration_task = Duration.ZERO;
+  public void updateTree(LocalDateTime start,LocalDateTime end){
+    if(this.getStartDate()==null){
+        setStartDate(start);
+    }
+    //this.setStartDate(this.children.get(0).getStartDate());
+    setEndDate(end);
+    Duration auxTime=Duration.ZERO;
+    //setDuration(getDuration().plus(children.get(children.size()-1).getDuration()));
+    for(Component child: children){
+      auxTime=auxTime.plus(child.getDuration());
+      //this.setDuration(this.getDuration().plus(child.getDuration()));
+    }
+    setDuration(auxTime);
+
+    //setEndDate(children.get(children.size()-1).getEndDate());
+    if(getParent() != null){
+      getParent().updateTree(this.getStartDate(),this.getEndDate());
+    }
+
+  }
+
+  public ArrayList<Component> getChild(){
+    return this.children;
+  }
+
+  public void acceptVisitor(Visitor v) {
+    v.visitProject(this);
+  }
+}
+
+//updateTree antiguo
+/*Duration duration_task = Duration.ZERO;
     for(Component component: children){
       if(component.getStartDate() != null) {
         if(getStartDate() == null){
@@ -35,24 +69,5 @@ public class Project extends Component {
     setDuration(duration_task);
     setEndDate(getStartDate().plus(getDuration()));
     if(getParent() != null){
-      getParent().update();
-    }
-
-    /*for(Component component: children){
-      if(component.getStartDate() != null && component.getEndDate() != null) {
-        if(component.getStartDate().isBefore(getStartDate())){
-          setStartDate(component.getStartDate());
-        } else if (component.getEndDate().isAfter(getEndDate())) {
-          setEndDate(component.getEndDate());
-        }
-      }
+      getParent().updateTree();
     }*/
-  }
-  public ArrayList<Component> getChild(){
-    return this.children;
-  }
-
-  public void acceptVisitor(Visitor v) {
-    v.visitProject(this);
-  }
-}

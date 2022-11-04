@@ -7,40 +7,32 @@ import java.util.Observer;
 
 
 public class Interval implements Observer {
-
-
+  /*---- ATRIBUTOS ----*/
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private Duration duration;
-
   private boolean end;
+  private Task taskParent;
 
-  //constructor inicializar
-  public Interval(){
+  /*---- CONSTRUCTOR ----*/
+  public Interval(Task Parent){
     //suscribirse como observador
+    taskParent = Parent;
     Clock.getInstance().addObserver(this);
-    //startTime=Clock.getInstance().getHour();
-    this.update(Clock.getInstance(),Clock.getInstance().getHour());
-    //startTime=aux;//no es
-
-  }
-
-  //tiene que haber una intancia reloj para añadir observador
-  //clock getintance().addobserver(this)
-  public void calculateTime(){
-    //calcular duracion = end - start
-    duration = between(startTime, endTime);
-  }
-
-  public void stop(){
-    //llamar observer, coger la hora y guardarlo en endTime
-    //una vez esta parado llamamos a calculateTime para tener la duracion ya hecha
-    Clock.getInstance().deleteObserver(this);
-    //endTime=Clock.getInstance().getHour();
     //this.update(Clock.getInstance(),Clock.getInstance().getHour());
-    //calculateTime();
-    endTime = startTime.plus(duration);
+  }
+
+  /*---- METODOS ----*/
+  public void stop(){
+    //No necesitamos saber más la hora, una vez paramos el intervalo
+    Clock.getInstance().deleteObserver(this);
+
+    //endTime = startTime.plus(duration);
     end = true;
+
+    //empezamos a actualizar el arbol hacia arriba
+    //taskParent.updateTree();
+
   }
   public LocalDateTime getStartTime() { return this.startTime; }
   public LocalDateTime getEndTime() { return  this.endTime; }
@@ -55,9 +47,17 @@ public class Interval implements Observer {
     if(startTime == null) {
       startTime = timeAux;
     }
+    //Cada vez que se actualiza el reloj, calculamos la duracion siempre que estemos suscritos (no hay stop)
     duration = between(startTime,timeAux);
+
+    endTime=timeAux;
+
+    taskParent.updateTree(this.getStartTime(),this.getEndTime());
+
+    Printer.getInstance().print(this);
   }
 
+  public Task getTaskParent(){return taskParent;}
   public boolean hasEnded() {
     return end;
   }

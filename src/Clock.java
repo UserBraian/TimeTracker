@@ -4,43 +4,41 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Clock extends Observable {
+  /*---- ATRIBUTOS -----*/
   private static Clock clock;
   private LocalDateTime hour;
   private String name;
-  private Timer timer;  //powerpoint observer! //through a Timer object, tick() is periodically invoked
+  private Timer timer;
   //Se crea el thread con esta clase
-  // !!!!----- USO DEL TIMER: https://www.chuidiang.org/java/timer/timer.php   ---------------!!!!!!!!!!!!!!!!!!!
- /*
- * Ya ques un constructor privado, no se genera por defecto por lo tanto
- * obligatoriamente tenemos que invocarlo
- * */
+
+  /*---- CONSTRUCTOR ----*/
+  //Constructor privado para no crear mas instancias
   private Clock(String name){
     this.name=name;
     this.timer=new Timer("Thread CLOCK");
     timer.schedule(new TimerTask() {
-
       @Override
       public void run() {
         tick();
       }
     }, 0, 2000);
   }
-/*SINGLETON PATTERN
-* Se ha seguido el patron singleton mas simple, sin tener en cuenta hilos
-* posiblemente se tenga que modificar.
-*/
+
+/*---- SINGLETON PATTERN ----*/
+//Se ha seguido el patron singleton mas simple, sin tener en cuenta hilos
+//posiblemente se tenga que modificar. (synchronized)
   public static Clock getInstance(){
-    if (clock==null){
+    if (clock==null){ //lazy
       clock=new Clock("CLOCK");
     }
     return clock;
   }
 
+  /*---- METODOS ----*/
   private void tick(){
     hour = LocalDateTime.now();
     setChanged();
-    //valorar poner un if y comprobar que el vector observadores no esten vacios
-    notifyObservers(hour); //
+    notifyObservers(hour);
   }
 
   public LocalDateTime getHour(){

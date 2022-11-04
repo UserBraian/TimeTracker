@@ -3,17 +3,16 @@ import java.util.Arrays;
 public class main {
 
   public static void main(String args[]) throws InterruptedException {
-    //Clock clock;
-    //mirar como funcionan los threads y que se cree el reloj en este
-    //si no queda en bucle infinito
+
     Clock.getInstance();
+    //Para evitar comportamientos extraños
     try {
       Thread.sleep(1500);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 
-    //APENDICE A
+    /*---- APENDICE A ----*/
     Project root=new Project("root",null, new ArrayList<String>());
     Project softwaredesign=new Project("softwaredesign",root, new ArrayList<String>( Arrays.asList("java", "flutter")));
     Project softwaretesting=new Project("sofwaretesting",root, new ArrayList<String>( Arrays.asList("c++", "Java", "python")));
@@ -26,20 +25,30 @@ public class main {
     Task readhandout = new Task("readhandout", timetracker, new ArrayList<String>());
     Task firstmilestone = new Task("firstmilestone", timetracker, new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
 
-    //APENDIX B
+    /*try {
+      Thread.sleep(1500);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }*/
+
+    /*---- APENDICE B ----*/
+    /*-- Tarea: Transportation --*/
     transportation.startTask();
     try {
-      Thread.sleep(4000);
+      Thread.sleep(6000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
     transportation.stopTask();
+
+    /*-- Esperamos 2 segundos --*/
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 
+    /*-- Tarea: FirstList --*/
     firstlist.startTask();
     try {
       Thread.sleep(6000);
@@ -47,6 +56,7 @@ public class main {
       Thread.currentThread().interrupt();
     }
 
+    /*-- Tarea: SecondList --*/
     secondlist.startTask();
     try {
       Thread.sleep(4000);
@@ -54,18 +64,27 @@ public class main {
       Thread.currentThread().interrupt();
     }
 
+    /*-- Paramos la tarea FirstList --*/
     firstlist.stopTask();
+
+    /*-- Esperamos 2 segundos --*/
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
+
+    /*-- Paramos la tarea SecondList --*/
     secondlist.stopTask();
+
+    /*-- Esperamos 2 segundos --*/
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
+
+    /*-- Tarea: Transportation --*/
     transportation.startTask();
     try {
       Thread.sleep(4000);
@@ -73,33 +92,8 @@ public class main {
       Thread.currentThread().interrupt();
     }
     transportation.stopTask();
-    /*
-    t3.startTask();
-    System.out.println("start time t3: "+t3.getIntervals().get(0).getStartTime());
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    t3.stopTask();
-    System.out.println("stop time t3: "+t3.getIntervals().get(0).getEndTime());
-    System.out.println("duration t3: "+t3.getIntervals().get(0).getDuration());
 
-    t2.startTask();
-    System.out.println("start time t2: "+t2.getIntervals().get(0).getStartTime());
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    t2.stopTask();*/
-    /* Comprovar este caso tarea no puede ser padre
-    Task t4=new Task("T4",t3);
-    System.out.println("nom del projecte: "+t4.getName());
-    System.out.println("pare del projecte: "+t4.getParent().getName());
-    System.out.println("creation: "+t4.getCreationDate());
-    System.out.println("\n");
-    */
-    Printer printer = new Printer(root);
+    //Mostramos por pantalla los tiempos
+    //Printer printer = new Printer(root);
   }
 }

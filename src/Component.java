@@ -3,6 +3,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 
 public abstract class Component {
+  /*---- ATRIBUTOS ----*/
   private String name;
   private Component parent;
   private ArrayList<String> tags;
@@ -12,20 +13,20 @@ public abstract class Component {
   //private LocalDateTime creationDate;
   private Duration duration;
 
-
+  /*---- CONSTRUCTOR ----*/
   public Component(String name, Component parent, ArrayList<String> tags ) {
     this.name = name;
     this.parent = parent;
     this.tags = tags;
-    //creationDate = LocalDateTime.now(); //cambiar
+    this.duration=Duration.ZERO;
 
-    //--Comprobar que una tarea no puede ser padre, por lo tanto no puede ser creada.-- TODO
-    //Con esto creamos los el arbol de hijos COMPROBADO EN DEBUG
+    //Creamos el arbol de proyectos/tareas
     if (parent != null) {
       parent.addComponent(this);
     }
   }
 
+  /*---- METODOS ----*/
   public String getName() { return name; }
   public Component getParent() { return parent; }
   public ArrayList<String> getTags() { return tags; }
@@ -64,7 +65,7 @@ public abstract class Component {
 
   public abstract void acceptVisitor(Visitor v);
 
-  public abstract void update();
+  public abstract void updateTree(LocalDateTime start, LocalDateTime end);
 }
 
 

@@ -1,55 +1,73 @@
+import javax.swing.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.time.Duration;
 
 public class Task extends Component {
+  /*---- ATRIBUTOS ----*/
   private ArrayList<Interval> intervals;
+  Duration duration_task = Duration.ZERO;//no lo usamos por ahora
 
+  /*---- CONSTRUCTOR ----*/
   public Task(String name, Component parent, ArrayList<String> tags) {
-    //DONE
     super(name,parent,tags);
     intervals=new ArrayList<Interval>();
   }
 
+  /*---- METODOS ----*/
   public ArrayList<Interval> getIntervals() { return this.intervals; }
   public void setIntervals(ArrayList<Interval> intervals) { this.intervals = intervals; }
   public void startTask() {
     if(intervals.isEmpty() || intervals.get(intervals.size()-1).hasEnded()){
-      Interval i = new Interval();
+      Interval i = new Interval(this);
       intervals.add(i);
     }
     else {
       System.out.println("Cannot start interval");
     }
-    /*else if (intervals.get(intervals.size()-1).getEndTime()!=null) {
-      Interval i = new Interval();
-      intervals.add(i);
-    }*/
-    //tmbn comprobar que no hayan intervalos en marcha endtime!=null
-    //if(intervals.get(-1).getEndTime()!=null){
-    //Interval i = new Interval();
-    //intervals.add(i);
-    //}
+    System.out.println("Iniciamos tarea: "+this.getName());
 
   }
   public void stopTask() {
     int last = intervals.size()-1;
     Interval i = intervals.get(last);
     i.stop();
-    update();
+    System.out.println("Paramos tarea: "+this.getName());
+    //update(); en interval
   }
-  public void update() {
-    Duration duration_task = Duration.ZERO;
-    setStartDate(intervals.get(0).getStartTime());
-    for(Interval interval: intervals){
-      duration_task = duration_task.plus(interval.getDuration());
+  public void updateTree(LocalDateTime start, LocalDateTime end) {
+    //cogemos el primero porque es la primera fecha, aunque luego haya ms intervalos
+    //comprovamos que no este inicializado
+    if(this.getStartDate()==null){
+      this.setStartDate(this.intervals.get(0).getStartTime());
+      //this.setDuration(Duration.ZERO);
     }
-    setDuration(duration_task);
-    setEndDate(getStartDate().plus(getDuration()));
-    //setEndDate(intervals.get(intervals.size()-1).getEndTime());
-    getParent().update();
+    Duration auxTime=Duration.ZERO;
+    for(Interval interval: intervals){
+      auxTime=auxTime.plus(interval.getDuration());
+      //this.setDuration(this.getDuration().plus(child.getDuration()));
+    }
+    setDuration(auxTime);
+
+    setEndDate(intervals.get(intervals.size()-1).getEndTime());
+
+    getParent().updateTree(this.getStartDate(), this.getEndDate());
   }
 
   public void acceptVisitor(Visitor v) {
     v.visitTask(this);
   }
 }
+
+
+
+
+//Duration duration_task = Duration.ZERO;
+//setStartDate(intervals.get(0).getStartTime());//comprovar que solo haya un intervalo
+    /*for(Interval interval: intervals){
+      duration_task = duration_task.plus(interval.getDuration());
+    }
+    setDuration(duration_task);
+    setEndDate(getStartDate().plus(getDuration()));
+    getParent().updateTree();
+    duration_task=duration_task.plus(this.intervals.get(intervals.size()-1).getDuration());*/
