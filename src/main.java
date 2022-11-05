@@ -13,17 +13,17 @@ public class main {
     }
 
     /*---- APENDICE A ----*/
-    Project root=new Project("root",null, new ArrayList<String>());
-    Project softwaredesign=new Project("softwaredesign",root, new ArrayList<String>( Arrays.asList("java", "flutter")));
-    Project softwaretesting=new Project("sofwaretesting",root, new ArrayList<String>( Arrays.asList("c++", "Java", "python")));
-    Project databases=new Project("databases",root, new ArrayList<String>( Arrays.asList("SQL", "python", "C++")));
-    Task transportation = new Task("trasnportation",root, new ArrayList<String>());
-    Project problems=new Project("problems",softwaredesign, new ArrayList<String>());
-    Project timetracker=new Project("timetracker",softwaredesign, new ArrayList<String>());
-    Task firstlist = new Task("firstlist", problems,  new ArrayList<String>( Arrays.asList("java")));
-    Task secondlist = new Task("secondlist", problems, new ArrayList<String>(Arrays.asList("Dart")));
-    Task readhandout = new Task("readhandout", timetracker, new ArrayList<String>());
-    Task firstmilestone = new Task("firstmilestone", timetracker, new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
+    Project root = new Project("root",null, new ArrayList<String>());
+    Project softwaredesign=new Project("SoftwareDesign",root, new ArrayList<String>( Arrays.asList("java", "flutter")));
+    Project softwaretesting=new Project("SofwareTesting",root, new ArrayList<String>( Arrays.asList("c++", "Java", "python")));
+    Project databases=new Project("Databases",root, new ArrayList<String>( Arrays.asList("SQL", "python", "C++")));
+    Task transportation = new Task("Transportation",root, new ArrayList<String>());
+    Project problems=new Project("Problems",softwaredesign, new ArrayList<String>());
+    Project timetracker=new Project("TimeTracker",softwaredesign, new ArrayList<String>());
+    Task firstlist = new Task("FirstList", problems,  new ArrayList<String>( Arrays.asList("java")));
+    Task secondlist = new Task("SecondList", problems, new ArrayList<String>(Arrays.asList("Dart")));
+    Task readhandout = new Task("ReadHandout", timetracker, new ArrayList<String>());
+    Task firstmilestone = new Task("FirstMilestone", timetracker, new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
 
     /*try {
       Thread.sleep(1500);
@@ -32,6 +32,9 @@ public class main {
     }*/
 
     /*---- APENDICE B ----*/
+    Printer printer=Printer.getInstance(root);
+    printer.print();
+    
     /*-- Tarea: Transportation --*/
     transportation.startTask();
     try {

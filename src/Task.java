@@ -25,14 +25,14 @@ public class Task extends Component {
     else {
       System.out.println("Cannot start interval");
     }
-    System.out.println("Iniciamos tarea: "+this.getName());
+    System.out.println("Empieza la tarea: "+this.getName());
 
   }
   public void stopTask() {
     int last = intervals.size()-1;
     Interval i = intervals.get(last);
     i.stop();
-    System.out.println("Paramos tarea: "+this.getName());
+    System.out.println("Paramos la tarea: "+this.getName());
     //update(); en interval
   }
   public void updateTree(LocalDateTime start, LocalDateTime end) {
@@ -56,6 +56,9 @@ public class Task extends Component {
 
   public void acceptVisitor(Visitor v) {
     v.visitTask(this);
+    /*for(Interval interval: this.intervals){
+      interval.acceptVisitor(v);
+    }*/
   }
 }
 

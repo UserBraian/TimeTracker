@@ -54,10 +54,12 @@ public class Interval implements Observer {
 
     taskParent.updateTree(this.getStartTime(),this.getEndTime());
 
-    Printer.getInstance().print(this);
+    Printer.getInstance(null).print();
   }
 
-  public Task getTaskParent(){return taskParent;}
+  public Task getTaskParent() {
+    return taskParent;
+  }
   public boolean hasEnded() {
     return end;
   }
