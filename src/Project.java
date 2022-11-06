@@ -50,6 +50,9 @@ public class Project extends Component {
 
   public void acceptVisitor(Visitor v) {
     v.visitProject(this);
+    if(getParent() != null){
+      getParent().acceptVisitor(v);
+    }
   }
 }
 

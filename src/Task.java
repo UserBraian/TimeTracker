@@ -56,6 +56,7 @@ public class Task extends Component {
 
   public void acceptVisitor(Visitor v) {
     v.visitTask(this);
+    getParent().acceptVisitor(v);
   }
 }
 

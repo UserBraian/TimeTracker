@@ -19,7 +19,7 @@ public class Interval implements Observer {
     //suscribirse como observador
     taskParent = Parent;
     Clock.getInstance().addObserver(this);
-    //this.update(Clock.getInstance(),Clock.getInstance().getHour());
+    startTime = Clock.getInstance().getHour();
   }
 
   /*---- METODOS ----*/
@@ -27,7 +27,6 @@ public class Interval implements Observer {
     //No necesitamos saber más la hora, una vez paramos el intervalo
     Clock.getInstance().deleteObserver(this);
 
-    //endTime = startTime.plus(duration);
     end = true;
 
     //empezamos a actualizar el arbol hacia arriba
@@ -44,15 +43,12 @@ public class Interval implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     LocalDateTime timeAux = (LocalDateTime) arg;
-    if(startTime == null) {
-      startTime = timeAux;
-    }
     //Cada vez que se actualiza el reloj, calculamos la duracion siempre que estemos suscritos (no hay stop)
     duration = between(startTime,timeAux);
 
     endTime=timeAux;
 
-    taskParent.updateTree(this.getStartTime(),this.getEndTime());
+    getTaskParent().updateTree(this.getStartTime(),this.getEndTime());
 
     Printer.getInstance().print(this);
   }
@@ -64,5 +60,6 @@ public class Interval implements Observer {
 
   public void acceptVisitor(Visitor v) {
     v.visitInterval(this);
+    getTaskParent().acceptVisitor(v);
   }
 }

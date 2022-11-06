@@ -13,23 +13,23 @@ public class main {
     }
 
     /*---- APENDICE A ----*/
-    Project root=new Project("root",null, new ArrayList<String>());
+    Project root=new Project("root          ",null, new ArrayList<String>());
     Project softwaredesign=new Project("softwaredesign",root, new ArrayList<String>( Arrays.asList("java", "flutter")));
     Project softwaretesting=new Project("sofwaretesting",root, new ArrayList<String>( Arrays.asList("c++", "Java", "python")));
-    Project databases=new Project("databases",root, new ArrayList<String>( Arrays.asList("SQL", "python", "C++")));
-    Task transportation = new Task("trasnportation",root, new ArrayList<String>());
-    Project problems=new Project("problems",softwaredesign, new ArrayList<String>());
-    Project timetracker=new Project("timetracker",softwaredesign, new ArrayList<String>());
-    Task firstlist = new Task("firstlist", problems,  new ArrayList<String>( Arrays.asList("java")));
-    Task secondlist = new Task("secondlist", problems, new ArrayList<String>(Arrays.asList("Dart")));
-    Task readhandout = new Task("readhandout", timetracker, new ArrayList<String>());
+    Project databases=new Project("databases     ",root, new ArrayList<String>( Arrays.asList("SQL", "python", "C++")));
+    Task transportation = new Task("transportation",root, new ArrayList<String>());
+    Project problems=new Project("problems      ",softwaredesign, new ArrayList<String>());
+    Project timetracker=new Project("timetracker   ",softwaredesign, new ArrayList<String>());
+    Task firstlist = new Task("firstlist     ", problems,  new ArrayList<String>( Arrays.asList("java")));
+    Task secondlist = new Task("secondlist    ", problems, new ArrayList<String>(Arrays.asList("Dart")));
+    Task readhandout = new Task("readhandout   ", timetracker, new ArrayList<String>());
     Task firstmilestone = new Task("firstmilestone", timetracker, new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
 
-    /*try {
-      Thread.sleep(1500);
+    try {
+      Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-    }*/
+    }
 
     /*---- APENDICE B ----*/
     /*-- Tarea: Transportation --*/
