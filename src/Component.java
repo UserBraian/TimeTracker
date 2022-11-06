@@ -9,8 +9,6 @@ public abstract class Component {
   private ArrayList<String> tags;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
-
-  //private LocalDateTime creationDate;
   private Duration duration;
 
   /*---- CONSTRUCTOR ----*/
@@ -32,14 +30,12 @@ public abstract class Component {
   public ArrayList<String> getTags() { return tags; }
   public LocalDateTime getStartDate() { return startDate; }
   public LocalDateTime getEndDate() { return endDate; }
-  //public LocalDateTime getCreationDate() { return creationDate; }
   public Duration getDuration() { return duration; }
   public void setName(String name) { this.name = name; }
   public void setParent(Component parent) { this.parent = parent; }
   public void setTags(ArrayList<String> tags) { this.tags = tags; }
   public void setStartDate(LocalDateTime startDate) {this.startDate = startDate; }
   public void setEndDate(LocalDateTime endDate) { this.endDate = endDate;}
-  //public void setCreationDate(LocalDateTime creationDate) { this.creationDate = creationDate; }
   public void setDuration(Duration duration) { this.duration = duration;}
 
   public void addComponent(Component child){
@@ -55,7 +51,6 @@ public abstract class Component {
   }
 
   void deleteTag(String tag){
-    //DONE
     int index = this.tags.indexOf(tag);
     if (index!=-1)
       this.tags.remove(index);

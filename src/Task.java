@@ -33,19 +33,16 @@ public class Task extends Component {
     Interval i = intervals.get(last);
     i.stop();
     System.out.println("Paramos tarea: "+this.getName());
-    //update(); en interval
   }
   public void updateTree(LocalDateTime start, LocalDateTime end) {
-    //cogemos el primero porque es la primera fecha, aunque luego haya ms intervalos
-    //comprovamos que no este inicializado
+    //cogemos el primero porque es la primera fecha, aunque luego haya mas intervalos
+    //comprobamos que no este inicializado
     if(this.getStartDate()==null){
       this.setStartDate(this.intervals.get(0).getStartTime());
-      //this.setDuration(Duration.ZERO);
     }
     Duration auxTime=Duration.ZERO;
     for(Interval interval: intervals){
       auxTime=auxTime.plus(interval.getDuration());
-      //this.setDuration(this.getDuration().plus(child.getDuration()));
     }
     setDuration(auxTime);
 
@@ -59,16 +56,3 @@ public class Task extends Component {
     getParent().acceptVisitor(v);
   }
 }
-
-
-
-
-//Duration duration_task = Duration.ZERO;
-//setStartDate(intervals.get(0).getStartTime());//comprovar que solo haya un intervalo
-    /*for(Interval interval: intervals){
-      duration_task = duration_task.plus(interval.getDuration());
-    }
-    setDuration(duration_task);
-    setEndDate(getStartDate().plus(getDuration()));
-    getParent().updateTree();
-    duration_task=duration_task.plus(this.intervals.get(intervals.size()-1).getDuration());*/

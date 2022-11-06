@@ -93,7 +93,5 @@ public class main {
     }
     transportation.stopTask();
 
-    //Mostramos por pantalla los tiempos
-    //Printer printer = new Printer(root);
   }
 }

@@ -26,12 +26,7 @@ public class Interval implements Observer {
   public void stop(){
     //No necesitamos saber más la hora, una vez paramos el intervalo
     Clock.getInstance().deleteObserver(this);
-
     end = true;
-
-    //empezamos a actualizar el arbol hacia arriba
-    //taskParent.updateTree();
-
   }
   public LocalDateTime getStartTime() { return this.startTime; }
   public LocalDateTime getEndTime() { return  this.endTime; }

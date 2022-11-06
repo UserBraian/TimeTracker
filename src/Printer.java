@@ -12,7 +12,6 @@ public class Printer implements Visitor{
     }
 
     /*---- METODOS ----*/
-
     public static Printer getInstance(){
         if(instance==null){
             instance=new Printer();
