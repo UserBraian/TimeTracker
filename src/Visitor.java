@@ -1,5 +1,7 @@
+import java.awt.color.CMMException;
+
 public interface Visitor {
-    public void visitProject(Project project);
-    public void visitTask(Task task);
-    public void visitInterval(Interval interval);
+  void visitProject(Project project, Component parent);
+  void visitTask(Task task, Component parent);
+  void visitInterval(Interval interval, Component parent );
 }
