@@ -92,6 +92,12 @@ public class main {
       Thread.currentThread().interrupt();
     }
     transportation.stopTask();
+    
+    /*---- BUSCAR TAG  ----*/
+    System.out.println("Empezamos a la busqueda: ");
+    Visitor searchByTag = new SearchByTag("Java");
+    root.acceptVisitor(searchByTag);
+    System.out.println("Fin de busqueda :)");
 
   }
 }
