@@ -1,0 +1,128 @@
+@startuml
+skinparam classAttributeIconSize 0
+class Main
+abstract Component
+class Project
+class Task
+class Interval
+class Clock
+class Printer
+class SearchByTag
+
+Main-->Component
+Component <|-- Task
+Component <|-- Project: father 
+Project "1" o-- "*" Component : children
+Task "1"*-- "*" Interval
+Printer -up-|> Visitor
+SearchByTag -up-|> Visitor
+
+class Main{
++main()
+}
+
+class Clock{
+<size:10> Observable </size>
+{static}-instance: Clock
+-Clock(name: string)
++{static} Clock getInstance()
+-void tick()
++getHour()
+}
+
+abstract Component{
+-name: string
+-parent: Component
+-tags: ArrayList<string>
+-startDate LocalDateTime
+-endDate LocalDateTime
+-duration: Duration
++Component(name: String, parent: Component, tags: ArrayList<string>)
++void updateTree(start: LocalDateTime, end: LocalDateTime)
++void acceptVisitor(v: Visitor)
+
+}
+
+class Project{
+<size:10> Composite </size>
++Project(name: string, parent: Component, tags: ArrayList<string>)
++void addComponent(child: Component)
++void delateComponent(child: Component)
++void updateTree(start: LocalDateTime, end: LocalDateTime)
++getChild(): ArrayList<Component>
++ void acceptVisitor(v: Visitor)
+}
+
+class Task{
++Task(name: string, parent: Component, tag: ArrayList<String>)
+-intervals: ArrayList<Interval>
++void startTask()
++void stopTask()
++void updateTree(start: LocalDateTime, end: LocalDateTime)
++void acceptVisitor(v: Visitor)
+}
+
+class Interval{
+-startTime: LocalDateTime
+-endTime: LocalDateTime
+-duration: Duration
+-end: boolean
+-taskParent: Task
++ Interval(parent: Task)
++ void stop()
++ void update(o: Observable, arg: Object)
++ Task getTaskParent()
++ boolean hasEnded()
++ void acceptVisitor(v: Visitor)
+}
+
+Interface Visitor {
++ void visitTask(task: Task, parent: Component)
++ void visitProject(project: Project, parent: Component)
++ void visitInterval(interval: Interval, parent: Component)
+}
+
+
+class Printer {
+{static}-instance: Printer
+- Printer()
++ {static} Printer getInstance()
++ void print(interval: Interval)
++ void visitTask(task: Task, parent: Component)
++ void visitProject(project: Project, parent: Component)
++ void visitInterval(interval: Interval, parent: Component)
+}
+
+class SearchByTag {
+- component: Component 
+- tagToSearch: string
+- tagInComponent: ArrayList<Component>
++ SearchByTag (tag: string)
++ void visitTask(task: Task, parent: Component)
++ void visitProject(project: Project, parent: Component)
++ void visitInterval(interval: Interval, parent: Component)
+}
+
+package "java.util"{
+abstract Observable
+interface Observer
+
+interface Observer{
++void update()
+}
+
+abstract Observable{
+-Observers
++void addObsever(Observer)
++void deleteObsever(Observer)
++void notifyObsevers()
+}
+
+
+
+Observable o-right-> Observer
+Observable <|-- Clock
+Observer <|.right.Interval
+Visitor -[hidden]left- Observable
+}
+@enduml
