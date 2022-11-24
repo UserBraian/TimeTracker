@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 * */
 
 public class Project extends Component {
+  /*---- LOGGER ----*/
+  static Logger logger = LoggerFactory.getLogger(Project.class);
+  
   /*---- ATRIBUTOS ----*/
   public ArrayList<Component> children;
 
