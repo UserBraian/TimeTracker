@@ -3,6 +3,8 @@ package main;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
 * La clase Project, en este caso hereda de Component. A su vez forma parte del patrón
