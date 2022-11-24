@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class Component {
   /*----  LOGGER ----*/
-  static Logger logger = LoggerFactory.getLogger("main.Component");
+  //static Logger logger = LoggerFactory.getLogger("main.Component");
 
   /*---- ATRIBUTOS ----*/
   private String name;
