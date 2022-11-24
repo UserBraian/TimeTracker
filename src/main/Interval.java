@@ -62,6 +62,16 @@ public class Interval implements Observer {
     this.duration = duration;
   }
 
+  /*
+  * El método update() forma parte del patrón Bbserver, en este caso se acude a este para poder
+  * establecer la fecha y hora en la variable endTime y posteriormente calcular la duración
+  * del intérvalo. Puesto que ya tenemos inicializada la variable startTime desde el constructor
+  * únicamente sobreescribimos el valor del endTime hasta que el intervalo en cuestion deje ya no
+  * sea un observador y no reciba mas actualizaciones de la hora, por lo tanto la hora final será
+  * la ultima que haya recibido hasta entonces. Y a su vez, se calcula la duracion de la misma forma.
+  * Por otro lado, se hace la llamada al metodo updateTree(), para que estas fechas se actualicen
+  * hacia la tarea padre y posteriormente se muestren por pantalla mediante la clase Printer.
+  */
   @Override
   public void update(Observable o, Object arg) {
     LocalDateTime timeAux = (LocalDateTime) arg;
