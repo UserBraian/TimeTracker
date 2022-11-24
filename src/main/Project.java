@@ -30,7 +30,11 @@ public class Project extends Component {
   public void deleteComponent(Component child) {
     children.remove(child);
   }
-
+ 
+  /* esta función forma parte de sistema para actualizar las fechas y la duración 
+  * de en este caso los pryectos, y una vez acaba se ejecuta la misma función pero 
+  * en su parent
+  */
   public void updateTree(LocalDateTime start, LocalDateTime end) {
     if (this.getStartDate() == null) {
       setStartDate(start);
