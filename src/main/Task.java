@@ -25,6 +25,7 @@ public class Task extends Component {
   public Task(String name, Component parent, ArrayList<String> tags) {
     super(name, parent, tags);
     intervals = new ArrayList<Interval>();
+    logger.info("Creamos Task: " + this.getName());
   }
 
   /*---- MÉTODOS ----*/
