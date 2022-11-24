@@ -63,7 +63,7 @@ public class Interval implements Observer {
   }
 
   /*
-  * El método update() forma parte del patrón Bbserver, en este caso se acude a este para poder
+  * El método update() forma parte del patrón Observer, en este caso se acude a este para poder
   * establecer la fecha y hora en la variable endTime y posteriormente calcular la duración
   * del intérvalo. Puesto que ya tenemos inicializada la variable startTime desde el constructor
   * únicamente sobreescribimos el valor del endTime hasta que el intervalo en cuestion deje ya no
