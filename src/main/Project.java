@@ -18,6 +18,7 @@ public class Project extends Component {
   public Project(String name, Component parent, ArrayList<String> tags) {
     super(name, parent, tags);
     children = new ArrayList<>();
+    logger.info("Creamos Proyecto: " + this.getName());
   }
 
   /*---- MÉTODOS ----*/
