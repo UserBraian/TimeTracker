@@ -32,7 +32,7 @@ public class Project extends Component {
   }
  
   /* esta función forma parte de sistema para actualizar las fechas y la duración 
-  * de en este caso los pryectos, y una vez acaba se ejecuta la misma función pero 
+  * de en este caso los proyectos, y una vez acaba se ejecuta la misma función pero 
   * en su parent
   */
   public void updateTree(LocalDateTime start, LocalDateTime end) {
