@@ -12,7 +12,7 @@ import java.util.TimerTask;
 * observadores implicados (principalmente intervalos).
 * Por otro lado, para obtener esta información únicamente por una via se aplica el
 * patrón Singleton. Este nos garantiza que solamente hay creado un único Clock.
-* */
+*/
 
 public class Clock extends Observable {
   /*---- ATRIBUTOS -----*/
@@ -36,8 +36,10 @@ public class Clock extends Observable {
   }
 
   /*---- SINGLETON PATTERN ----*/
-  //Se ha seguido el patron singleton más simple, sin tener en cuenta hilos
-  //posiblemente se tenga que modificar. (synchronized)
+  /*
+  * Se ha seguido el patron singleton más simple, sin tener en cuenta hilos
+  * posiblemente se tenga que modificar. (synchronized)
+  */
   public static Clock getInstance() {
     if (clock == null) { //lazy
       clock = new Clock("CLOCK");
@@ -50,7 +52,7 @@ public class Clock extends Observable {
   * Patron Observer: una vez tenemos la fecha y hora actualizada, internamente
   * marcamos este cambio y se procede a notificar esta fecha y hora a todos
   * los observadores que haya interesados en esta información.
-  * */
+  */
   private void tick() {
     hour = LocalDateTime.now();
     setChanged();

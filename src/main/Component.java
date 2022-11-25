@@ -5,16 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 
 /*
 * La clase Component es la superclase respecto Project y Task pues ambas tienen características
 * similares. Además, nos sirve para poder aplicar el patron Composite, donde la clase container
 * puede generar un componente, es decir crear un proyecto o tarea.
-* */
+*/
 
 public abstract class Component {
-  /*----  LOGGER ----*/
-  //static Logger logger = LoggerFactory.getLogger("main.Component");
+  /*---- LOGGER ----*/
+  static Logger logger = LoggerFactory.getLogger(Project.class);
+  final Marker fita1 = MarkerFactory.getMarker("FITA1");
 
   /*---- ATRIBUTOS ----*/
   private String name;
@@ -103,8 +107,15 @@ public abstract class Component {
     if (index != -1) {
       this.tags.remove(index);
     } else {
-      System.out.println(tag + " -> Doesn't exist, impossible to remove");
+      logger.error(fita1, tag + " -> Doesn't exist, impossible to remove");
     }
+  }
+
+  @Override
+  public String toString() {
+    String clase = (this.getClass() == Project.class) ? "Project:  " : "Task:     ";
+    return ("main." + clase +  this.getName() + "\t" + this.getStartDate() + "\t"
+        + this.getEndDate() + "\t" + this.getDuration());
   }
 
   public abstract void acceptVisitor(Visitor v);

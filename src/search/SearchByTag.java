@@ -6,6 +6,10 @@ import main.Interval;
 import main.Project;
 import main.Task;
 import main.Visitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 public class SearchByTag implements Visitor {
   /*
@@ -17,29 +21,27 @@ public class SearchByTag implements Visitor {
   * proyectos y tareas, con sus respectivos tags, que forman parte del árbol.
   */
 
+  /*---- LOGGER ----*/
+  static Logger logger = LoggerFactory.getLogger(Task.class);
+  final Marker fita2 = MarkerFactory.getMarker("FITA2");
+
   private Component component;
   private String tagToSearch;
   private ArrayList<Component> tagInComponent;
 
   public SearchByTag(String tag) {
-    //this.component = root;
     this.tagToSearch = tag;
     this.tagInComponent = new ArrayList<>();
   }
 
-  /*public ArrayList<main.Component> search() {
-    //this.tagToSearch = tag;
-    this.component.acceptVisitor(this);
-    return tagInComponent;
-  }*/
-
   @Override
   public void visitProject(Project project, Component parent) {
+    logger.trace(fita2, "Buscando en proyecto: " + project.getName()); //CAMBIAR O QUITAR
     for (String projectTag : project.getTags()) {
       if ((projectTag.toLowerCase()).equals(tagToSearch.toLowerCase())) {
         //guardar proyecto en array list
         this.tagInComponent.add(project);
-        System.out.println("Tag: " + tagToSearch + "\t" + "-> " + project.getName());
+        logger.info("Tag: " + tagToSearch + "\t" + "-> " + project.getName());
       }
     }
 
@@ -50,11 +52,12 @@ public class SearchByTag implements Visitor {
 
   @Override
   public void visitTask(Task task, Component parent) {
+    logger.trace(fita2, "Buscando en tarea: " + task.getName()); //CAMBIAR O QUITAR
     for (String taskTag : task.getTags()) {
       if ((taskTag.toLowerCase()).equals(tagToSearch.toLowerCase())) {
         //guardar task en array list
         this.tagInComponent.add(task);
-        System.out.println("Tag: " + tagToSearch + "\t" + "-> " + task.getName());
+        logger.info("Tag: " + tagToSearch + "\t" + "-> " + task.getName());
       }
     }
   }

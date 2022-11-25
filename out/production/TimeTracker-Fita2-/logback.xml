@@ -1,0 +1,45 @@
+<configuration>
+    <!-- Appender para mostrar los log por consola -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+    <logger name="main" level="info"/>
+
+    <!-- Filtro para recoger logs de Fita1 ALLOW/DENY-->
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>RELEASE_FILTER</Name>
+        <Marker>FITA1</Marker>
+        <OnMatch>ALLOW</OnMatch>
+    </turboFilter>
+
+    <!-- Filtro para recoger logs de Fita2 ALLOW/DENY -->
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>SECOND_RELEASE_FILTER</Name>
+        <Marker>FITA2</Marker>
+        <OnMatch>ALLOW</OnMatch>
+    </turboFilter>
+
+    <!-- Appender para mostrar los log en un html -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%relative%thread%mdc%level%logger%msg</pattern>
+            </layout>
+        </encoder>
+        <file>test.html</file>
+    </appender>
+
+    <root level="trace">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

@@ -2,11 +2,23 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import search.SearchByTag;
 
 public class Main {
 
   public static void main(String[] args) throws InterruptedException {
+
+    /*---- LOGGERS ----*/
+    Logger logger = LoggerFactory.getLogger(Main.class);
+    final Marker fita1 = MarkerFactory.getMarker("FITA1");
+    final Marker fita2 = MarkerFactory.getMarker("FITA2");
+
+    logger.info("Comenzamos la ejecucion del Time Tracker\n");
+    logger.info(fita1, "Comienza la Fita1:\n");
 
     Clock.getInstance();
     //Para evitar comportamientos extraños
@@ -113,9 +125,12 @@ public class Main {
     }
     transportation.stopTask();
 
+    logger.info(fita1, "Acaba la Fita1\n");
+
+    logger.info(fita2, "Comienza la Fita2\n");
+
     /*---- BUSCAR TAG  ----*/
-    System.out.println();
-    System.out.println("Empezamos a la busqueda por tags: ");
+    logger.info(fita2, "Empezamos a la busqueda por tags: ");
     ArrayList<String> tags = new ArrayList<String>(
         Arrays.asList("java", "JAVA", "intellij", "c++", "python"));
     for (String tagToSearch : tags) {
@@ -123,6 +138,10 @@ public class Main {
       root.acceptVisitor(searchByTag);
       System.out.println();
     }
-    System.out.println("Fin de busqueda por tags :)");
+    logger.info(fita2, "Fin de busqueda por tags :)");
+
+    logger.info(fita2, "Acaba la Fita2");
+
+    logger.info("Acaba la ejecucion del Time Tracker");
   }
 }

@@ -5,17 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 /*
-* La clase Task hereda de Component. Esta clase almacena todos lo intérvalos que se han realizado para
-* completar dicha tarea en un ArrayList<>. Sus funciones principales son empezar una tarea (startTask),
-* para una tarea (stopTask) y por último actualizar el arbol de tareas (updateTree), pasando los datos 
-* hacia la jerarquía superior, en este caso a su padre Project.
-* */
+* La clase Task hereda de Component. Esta clase almacena todos lo intérvalos que se han realizado
+* para completar dicha tarea en un ArrayList<>. Sus funciones principales son empezar una tarea
+* (startTask), parar una tarea (stopTask) y por último actualizar el árbol de tareas (updateTree),
+* pasando los datos hacia la jerarquía superior, en este caso a su padre Project.
+*/
 
 public class Task extends Component {
   /*---- LOGGER ----*/
   static Logger logger = LoggerFactory.getLogger(Task.class);
+  final Marker fita1 = MarkerFactory.getMarker("FITA1");
 
   /*---- ATRIBUTOS ----*/
   private ArrayList<Interval> intervals;
@@ -25,7 +28,7 @@ public class Task extends Component {
   public Task(String name, Component parent, ArrayList<String> tags) {
     super(name, parent, tags);
     intervals = new ArrayList<Interval>();
-    logger.info("Creamos Task: " + this.getName());
+    logger.info(fita1, "Creamos Task: " + this.getName());
   }
 
   /*---- MÉTODOS ----*/
@@ -38,8 +41,9 @@ public class Task extends Component {
   }
 
   /*
-  * El método startTask() antes de poder iniciar una tarea, se comprueba que no haya ningún intérvalo
-  * en curso, o por otro lado que el ArrayList de intervalos esté vacio y este sea el primero.
+  * El método startTask() antes de poder iniciar una tarea, se comprueba que no haya ningún
+  * intérvalo en curso o, por otro lado, que el ArrayList de intervalos esté vacío y este
+  * sea el primero.
   * Una vez hechas las comprobaciones se crea un nuevo intérvalo.
   */
   public void startTask() {
@@ -47,10 +51,9 @@ public class Task extends Component {
       Interval i = new Interval(this);
       intervals.add(i);
     } else {
-      System.out.println("Cannot start interval");
+      logger.error(fita1, "Cannot start interval");
     }
-    //System.out.println("Iniciamos tarea: " + this.getName());
-    logger.info("Iniciamos tarea: " + this.getName());
+    logger.info(fita1, "Iniciamos tarea: " + this.getName());
 
   }
 
@@ -62,8 +65,7 @@ public class Task extends Component {
     int last = intervals.size() - 1;
     Interval i = intervals.get(last);
     i.stop();
-    //System.out.println("Paramos tarea: " + this.getName());
-    logger.info("Paramos tarea: " + this.getName());
+    logger.info(fita1, "Paramos tarea: " + this.getName());
   }
   
   /* 

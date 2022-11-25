@@ -5,17 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 /*
 * La clase Project, en este caso hereda de Component. A su vez forma parte del patrón
 * Composite, a modo de container, por lo cual un proyecto puede tener como hijos otros
 * proyectos y/o tareas.
-* */
+*/
 
 public class Project extends Component {
   /*---- LOGGER ----*/
   static Logger logger = LoggerFactory.getLogger(Project.class);
-  
+  final Marker fita1 = MarkerFactory.getMarker("FITA1");
+
   /*---- ATRIBUTOS ----*/
   public ArrayList<Component> children;
 
@@ -23,7 +26,7 @@ public class Project extends Component {
   public Project(String name, Component parent, ArrayList<String> tags) {
     super(name, parent, tags);
     children = new ArrayList<>();
-    logger.info("Creamos Proyecto: " + this.getName());
+    logger.info(fita1, "Creamos Proyecto: " + this.getName());
   }
 
   /*---- MÉTODOS ----*/
@@ -57,7 +60,6 @@ public class Project extends Component {
     if (getParent() != null) {
       getParent().updateTree(this.getStartDate(), this.getEndDate());
     }
-
   }
 
   public ArrayList<Component> getChild() {
