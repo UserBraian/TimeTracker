@@ -31,6 +31,14 @@ public class Task extends Component {
     logger.info(fita1, "Creamos Task: " + this.getName());
   }
 
+  public Task(String name, LocalDateTime startTime, LocalDateTime endTime,
+              Duration duration, Component parent) {
+    super(name, parent, new ArrayList<String>());
+    super.setStartDate(startTime);
+    super.setEndDate(endTime);
+    super.setDuration(duration);
+  }
+
   /*---- MÉTODOS ----*/
   public ArrayList<Interval> getIntervals() {
     return this.intervals;

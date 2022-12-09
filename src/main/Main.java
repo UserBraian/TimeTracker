@@ -29,6 +29,7 @@ public class Main {
     }
 
     /*---- APÉNDICE A ----*/
+    /*
     Project root = new Project("root          ", null, new ArrayList<String>());
 
     Project softwaredesign = new Project("softwaredesign", root,
@@ -61,75 +62,28 @@ public class Main {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-    }
+    } */
+
+    /*---- CARGAR ARBOL DESDE JSON  ----*/
+    LoadFromJSON loadJSON = new LoadFromJSON();
+    loadJSON.load("test.json");
+    Project root = loadJSON.getRoot();
+
 
     /*---- APÉNDICE B ----*/
-    /*-- Tarea: Transportation --*/
-    transportation.startTask();
-    try {
-      Thread.sleep(6000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    transportation.stopTask();
+    //cortado y guardado en textedit online
 
-    /*-- Esperamos 2 segundos --*/
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    /*-- Tarea: FirstList --*/
-    firstlist.startTask();
-    try {
-      Thread.sleep(6000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    /*-- Tarea: SecondList --*/
-    secondlist.startTask();
-    try {
-      Thread.sleep(4000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    /*-- Paramos la tarea FirstList --*/
-    firstlist.stopTask();
-
-    /*-- Esperamos 2 segundos --*/
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    /*-- Paramos la tarea SecondList --*/
-    secondlist.stopTask();
-
-    /*-- Esperamos 2 segundos --*/
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-
-    /*-- Tarea: Transportation --*/
-    transportation.startTask();
-    try {
-      Thread.sleep(4000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    transportation.stopTask();
+    /*---- GUARDAR ARBOL EN JSON  ----*/
+    SaveToJSON savejson = new SaveToJSON();
+    root.acceptVisitor(savejson);
+    savejson.save("src/main/test2.json");
 
     logger.info(fita1, "Acaba la Fita1\n");
 
     logger.info(fita2, "Comienza la Fita2\n");
 
     /*---- BUSCAR TAG  ----*/
+    /*
     logger.info(fita2, "Empezamos a la busqueda por tags: ");
     ArrayList<String> tags = new ArrayList<String>(
         Arrays.asList("java", "JAVA", "intellij", "c++", "python"));
@@ -142,6 +96,6 @@ public class Main {
 
     logger.info(fita2, "Acaba la Fita2");
 
-    logger.info("Acaba la ejecucion del Time Tracker");
+    logger.info("Acaba la ejecucion del Time Tracker");*/
   }
 }

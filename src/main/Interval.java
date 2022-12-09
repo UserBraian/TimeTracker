@@ -31,6 +31,13 @@ public class Interval implements Observer {
     startTime = Clock.getInstance().getHour();
   }
 
+  public Interval(LocalDateTime startTime, LocalDateTime endTime, Duration duration, Task task) {
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.duration = duration;
+    this.taskParent = task;
+  }
+
   /*---- MÉTODOS ----*/
   public void stop() {
     //No necesitamos saber más la hora, una vez paramos el intervalo

@@ -25,14 +25,24 @@ public class Project extends Component {
   /*---- CONSTRUCTOR ----*/
   public Project(String name, Component parent, ArrayList<String> tags) {
     super(name, parent, tags);
+
+    //setName();
     children = new ArrayList<>();
     logger.info(fita1, "Creamos Proyecto: " + this.getName());
+  }
+
+  public Project(String name, LocalDateTime startDate, LocalDateTime endDate, Duration duration, Component parent) {
+    super(name, parent, new ArrayList<String>());
+    super.setStartDate(startDate);
+    super.setEndDate(endDate);
+    super.setDuration(duration);
   }
 
   /*---- MÉTODOS ----*/
   @Override
   public void addComponent(Component child) {
-    children.add((child));
+    if(this.children!=null)
+      children.add(child);
   }
 
   @Override
@@ -65,6 +75,9 @@ public class Project extends Component {
   public ArrayList<Component> getChild() {
     return this.children;
   }
+
+  public void setChildren(ArrayList<Component> children) { this.children = children; }
+
 
   public void acceptVisitor(Visitor v) {
     v.visitProject(this, getParent());
