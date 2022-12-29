@@ -3,10 +3,13 @@ package main;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+import search.SearchById;
 
 
 /*
@@ -27,9 +30,11 @@ public abstract class Component {
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   private Duration duration;
+  private int id;
 
   /*---- CONSTRUCTOR ----*/
-  public Component(String name, Component parent, ArrayList<String> tags) {
+  public Component(String name, Component parent, ArrayList<String> tags, int id) {
+    this.id = id;
     this.name = name;
     this.parent = parent;
     this.tags = tags;
@@ -64,6 +69,9 @@ public abstract class Component {
 
   public Duration getDuration() {
     return duration;
+  }
+  public int getId() {
+    return id;
   }
 
   public void setName(String name) {
@@ -121,6 +129,13 @@ public abstract class Component {
   public abstract void acceptVisitor(Visitor v);
 
   public abstract void updateTree(LocalDateTime start, LocalDateTime end);
+
+  public Component findActivityById(int id) {
+    SearchById searcher = new SearchById();
+    return searcher.SearchById(this, id);
+  }
+
+  public abstract JSONObject toJson(int level);
 }
 
 

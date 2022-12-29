@@ -3,6 +3,9 @@ package main;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -25,15 +28,15 @@ public class Task extends Component {
   Duration durationTask = Duration.ZERO; //no lo usamos por ahora
 
   /*---- CONSTRUCTOR ----*/
-  public Task(String name, Component parent, ArrayList<String> tags) {
-    super(name, parent, tags);
+  public Task(String name, Component parent, ArrayList<String> tags, int id) {
+    super(name, parent, tags, id);
     intervals = new ArrayList<Interval>();
     logger.info(fita1, "Creamos Task: " + this.getName());
   }
 
   public Task(String name, LocalDateTime startTime, LocalDateTime endTime,
-              Duration duration, Component parent) {
-    super(name, parent, new ArrayList<String>());
+              Duration duration, Component parent, int id) {
+    super(name, parent, new ArrayList<String>(), id);
     super.setStartDate(startTime);
     super.setEndDate(endTime);
     super.setDuration(duration);
@@ -100,5 +103,54 @@ public class Task extends Component {
 
   public void acceptVisitor(Visitor v) {
     v.visitTask(this, getParent());
+  }
+
+  @Override
+  public JSONObject toJson(int level) {
+    JSONObject json = new JSONObject();
+
+    json.put("id", this.getId());
+    json.put("type", this.getClass().getSimpleName());
+    json.put("name", this.getName());
+    json.put("startTime", this.getStartDate());
+    json.put("endTime", this.getEndDate());
+    json.put("duration", this.getDuration().toSeconds());
+    if (this.getParent() != null) {
+      json.put("parent", this.getParent().getName());
+    }
+
+    JSONArray jsonIntervals = new JSONArray();
+    if (level > 0) {
+      for (Interval interval : this.getIntervals()) {
+        jsonIntervals.put(interval.toJson());
+      }
+    }
+    json.put("intervals", jsonIntervals);
+
+    JSONArray jsonTags = new JSONArray();
+    for (String tag : this.getTags()) {
+      jsonTags.put(tag);
+    }
+    json.put("tags", jsonTags);
+
+    return json;
+  }
+
+  private boolean invariants() {
+    boolean check = !this.getName().isEmpty();
+
+    if (this.getParent() == null) {
+      check = false;
+    } else if (this.getParent().getClass().getSimpleName().equals("Task")) {
+      check = false;
+    }
+
+    if (this.getDuration().toSeconds() < 0) {
+      check = false;
+    }
+
+    // Getintervals peta como palomita en el micro
+
+    return check;
   }
 }

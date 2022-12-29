@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
+import search.SearchById;
 
 // Based on
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -46,7 +47,6 @@ public class WebServer {
     // SocketThread sees WebServer attributes
     private final Socket insocked;
     // Client Connection via Socket Class
-
     SocketThread(Socket insocket) {
       this.insocked = insocket;
       this.start();
@@ -116,7 +116,7 @@ public class WebServer {
           int id = Integer.parseInt(tokens[1]);
           Component activity = findActivityById(id);
           assert (activity!=null);
-          //body = activity.toJson(filename,1).toString(); ********ADAPTAR
+          body = activity.toJson(1).toString();
           break;
         }
         case "start": {

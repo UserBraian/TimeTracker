@@ -21,6 +21,7 @@ public class Main {
     logger.info(fita1, "Comienza la Fita1:\n");
 
     Clock.getInstance();
+    IdGenerator idgen = IdGenerator.getInstance();
     //Para evitar comportamientos extraños
     try {
       Thread.sleep(1500);
@@ -29,45 +30,44 @@ public class Main {
     }
 
     /*---- APÉNDICE A ----*/
-    /*
-    Project root = new Project("root          ", null, new ArrayList<String>());
+    Project root = new Project("root          ", null, new ArrayList<String>(), idgen.getId());
 
     Project softwaredesign = new Project("softwaredesign", root,
-        new ArrayList<String>(Arrays.asList("java", "flutter")));
+        new ArrayList<String>(Arrays.asList("java", "flutter")), idgen.getId());
 
     Project softwaretesting = new Project("sofwaretesting", root,
-        new ArrayList<String>(Arrays.asList("c++", "Java", "python")));
+        new ArrayList<String>(Arrays.asList("c++", "Java", "python")), idgen.getId());
 
     Project databases = new Project("databases     ", root,
-        new ArrayList<String>(Arrays.asList("SQL", "python", "C++")));
+        new ArrayList<String>(Arrays.asList("SQL", "python", "C++")), idgen.getId());
 
-    Task transportation = new Task("transportation", root, new ArrayList<String>());
+    Task transportation = new Task("transportation", root, new ArrayList<String>(), idgen.getId());
 
-    Project problems = new Project("problems      ", softwaredesign, new ArrayList<String>());
+    Project problems = new Project("problems      ", softwaredesign, new ArrayList<String>(), idgen.getId());
 
-    Project timetracker = new Project("timetracker   ", softwaredesign, new ArrayList<String>());
+    Project timetracker = new Project("timetracker   ", softwaredesign, new ArrayList<String>(), idgen.getId());
 
     Task firstlist = new Task("firstlist     ", problems,
-        new ArrayList<String>(Arrays.asList("java")));
+        new ArrayList<String>(Arrays.asList("java")), idgen.getId());
 
     Task secondlist = new Task("secondlist    ", problems,
-        new ArrayList<String>(Arrays.asList("Dart")));
+        new ArrayList<String>(Arrays.asList("Dart")), idgen.getId());
 
-    Task readhandout = new Task("readhandout   ", timetracker, new ArrayList<String>());
+    Task readhandout = new Task("readhandout   ", timetracker, new ArrayList<String>(), idgen.getId());
 
     Task firstmilestone = new Task("firstmilestone", timetracker,
-        new ArrayList<String>(Arrays.asList("Java", "IntelliJ")));
+        new ArrayList<String>(Arrays.asList("Java", "IntelliJ")), idgen.getId());
 
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-    } */
+    }
 
     /*---- CARGAR ARBOL DESDE JSON  ----*/
-    LoadFromJSON loadJSON = new LoadFromJSON();
-    loadJSON.load("test.json");
-    Project root = loadJSON.getRoot();
+    //LoadFromJSON loadJSON = new LoadFromJSON();
+    //loadJSON.load("test.json");
+    //Project root2 = loadJSON.getRoot();
 
 
     /*---- APÉNDICE B ----*/

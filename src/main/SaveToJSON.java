@@ -71,6 +71,7 @@ public class SaveToJSON implements Visitor {
     }
 
     JSONObject projectDetails = new JSONObject();
+    projectDetails.put("id", project.getId());
     projectDetails.put("name", project.getName());
     projectDetails.put("startDate", project.getStartDate());
     projectDetails.put("endDate", project.getEndDate());
@@ -109,6 +110,7 @@ public class SaveToJSON implements Visitor {
     }
 
     JSONObject taskDetails = new JSONObject();
+    taskDetails.put("id", task.getId());
     taskDetails.put("name", task.getName());
     taskDetails.put("startDate", task.getStartDate());
     taskDetails.put("endDate", task.getEndDate());
@@ -144,6 +146,7 @@ public class SaveToJSON implements Visitor {
   @Override
   public void visitInterval(Interval interval, Component parent) {
     JSONObject intervalDetails = new JSONObject();
+    //intervalDetails.put("id", interval.getId());
     intervalDetails.put("startTime", interval.getStartTime());
     intervalDetails.put("endTime", interval.getEndTime());
     intervalDetails.put("duration", interval.getDuration().toSeconds());
@@ -151,6 +154,8 @@ public class SaveToJSON implements Visitor {
 
     this.intervals.put(intervalDetails);
   }
+
+
 
 }
 

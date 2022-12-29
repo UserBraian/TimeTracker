@@ -3,6 +3,9 @@ package main;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -23,16 +26,16 @@ public class Project extends Component {
   public ArrayList<Component> children;
 
   /*---- CONSTRUCTOR ----*/
-  public Project(String name, Component parent, ArrayList<String> tags) {
-    super(name, parent, tags);
+  public Project(String name, Component parent, ArrayList<String> tags, int id) {
+    super(name, parent, tags, id);
 
     //setName();
     children = new ArrayList<>();
     logger.info(fita1, "Creamos Proyecto: " + this.getName());
   }
 
-  public Project(String name, LocalDateTime startDate, LocalDateTime endDate, Duration duration, Component parent) {
-    super(name, parent, new ArrayList<String>());
+  public Project(String name, LocalDateTime startDate, LocalDateTime endDate, Duration duration, Component parent, int id) {
+    super(name, parent, new ArrayList<String>(), id);
     super.setStartDate(startDate);
     super.setEndDate(endDate);
     super.setDuration(duration);
@@ -81,5 +84,36 @@ public class Project extends Component {
 
   public void acceptVisitor(Visitor v) {
     v.visitProject(this, getParent());
+  }
+
+  @Override
+  public JSONObject toJson(int level) {
+    JSONObject json = new JSONObject();
+
+    json.put("id", this.getId());
+    json.put("type", this.getClass().getSimpleName());
+    json.put("name", this.getName());
+    json.put("startTime", this.getStartDate());
+    json.put("endTime", this.getEndDate());
+    json.put("duration", this.getDuration().toSeconds());
+    if (this.getParent() != null) {
+      json.put("parent", this.getParent().getName());
+    }
+
+    JSONArray jsonChildren = new JSONArray();
+    if (level > 0) {
+      for (Component child : this.getChild()) {
+        jsonChildren.put(child.toJson(level - 1));
+      }
+    }
+    json.put("children", jsonChildren);
+
+    JSONArray jsonTags = new JSONArray();
+    for (String tag : this.getTags()) {
+      jsonTags.put(tag);
+    }
+    json.put("tags", jsonTags);
+
+    return json;
   }
 }

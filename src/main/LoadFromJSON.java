@@ -27,6 +27,14 @@ public class LoadFromJSON {
     return this.root;
   }
 
+  private int getintfromjson(JSONObject jsonObject, String key) {
+    int num = 0;
+    if (jsonObject.has(key)) {
+      num = jsonObject.getInt(key);
+    }
+
+    return num;
+  }
   private String getstringfromjson(JSONObject jsonObject, String key) {
     String text = "";
     if (jsonObject.has(key)) {
@@ -61,19 +69,20 @@ public class LoadFromJSON {
     for (Object childObject : jsonChildren) {
       JSONObject jsonChild = (JSONObject) childObject;
 
+      int id = getintfromjson(jsonChild, "id");
       String name = getstringfromjson(jsonChild, "name");
       LocalDateTime startTime = getlocaldatetimefromjson(jsonChild, "startDate");
       LocalDateTime endTime = getlocaldatetimefromjson(jsonChild, "endDate");
       Duration duration = Duration.ofSeconds(getlongfromjson(jsonChild, "duration"));
 
       if (jsonChild.has("children")) {
-        Project child = new Project(name, startTime, endTime, duration, parent);
+        Project child = new Project(name, startTime, endTime, duration, parent, id);
         child.setChildren(loadChildren(child, jsonChild.getJSONArray("children")));
         children.add(child);
       }
 
       if (jsonChild.has("intervals")) {
-        Task child = new Task(name, startTime, endTime, duration, parent);
+        Task child = new Task(name, startTime, endTime, duration, parent, id);
         child.setIntervals(loadIntervals(child, jsonChild.getJSONArray("intervals")));
         children.add(child);
       }
@@ -88,11 +97,12 @@ public class LoadFromJSON {
     for (Object intervalObject : jsonIntervals) {
       JSONObject jsonInterval = (JSONObject) intervalObject;
 
+      int id = getintfromjson(jsonInterval, "id");
       LocalDateTime startTime = getlocaldatetimefromjson(jsonInterval, "startTime");
       LocalDateTime endTime = getlocaldatetimefromjson(jsonInterval, "endTime");
       Duration duration = Duration.ofSeconds(getlongfromjson(jsonInterval, "duration"));
 
-      Interval interval = new Interval(startTime, endTime, duration, task);
+      Interval interval = new Interval(startTime, endTime, duration, task/*, id*/);
       intervals.add(interval);
     }
 
@@ -114,12 +124,13 @@ public class LoadFromJSON {
     JSONTokener tokenizer = new JSONTokener(is);
     JSONObject jsonObject = new JSONObject(tokenizer);
 
+    int id = getintfromjson(jsonObject, "id");
     String name = getstringfromjson(jsonObject, "name");
     LocalDateTime startTime = getlocaldatetimefromjson(jsonObject, "starDate");
     LocalDateTime endTime = getlocaldatetimefromjson(jsonObject, "endDate");
     Duration duration = Duration.ofSeconds(getlongfromjson(jsonObject, "duration"));
 
-    root = new Project(name, startTime, endTime, duration, null);
+    root = new Project(name, startTime, endTime, duration, null, id);
 
     if (jsonObject.has("children")) {
       root.setChildren(loadChildren(root, jsonObject.getJSONArray("children")));

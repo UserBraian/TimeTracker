@@ -1,5 +1,7 @@
 package main;
 
+import org.json.JSONObject;
+
 import static java.time.Duration.between;
 
 import java.time.Duration;
@@ -22,6 +24,7 @@ public class Interval implements Observer {
   private Duration duration;
   private boolean end;
   private Task taskParent;
+  //private int id;
 
   /*---- CONSTRUCTOR ----*/
   public Interval(Task parent) {
@@ -31,7 +34,8 @@ public class Interval implements Observer {
     startTime = Clock.getInstance().getHour();
   }
 
-  public Interval(LocalDateTime startTime, LocalDateTime endTime, Duration duration, Task task) {
+  public Interval(LocalDateTime startTime, LocalDateTime endTime, Duration duration, Task task/*, int id*/) {
+    //this.id = id;
     this.startTime = startTime;
     this.endTime = endTime;
     this.duration = duration;
@@ -109,5 +113,18 @@ public class Interval implements Observer {
   public String toString() {
     return  ("main.Interval: " + "              " + "\t" + this.getStartTime()
         + "\t" + this.getEndTime() + "\t" + this.getDuration());
+  }
+
+  public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+
+    json.put("startTime", this.getStartTime());
+    json.put("endTime", this.getEndTime());
+    json.put("duration", this.getDuration().toSeconds());
+    if (this.getTaskParent() != null) {
+      json.put("task", this.getTaskParent().getName());
+    }
+
+    return json;
   }
 }

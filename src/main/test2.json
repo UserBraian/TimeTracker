@@ -1,46 +1,31 @@
 {
-  "duration": 26,
-  "endDate": "2022-12-08T21:36:20.773967",
+  "duration": 0,
   "children": [
     {
-      "duration": 16,
+      "duration": 0,
       "parent": "root          ",
-      "endDate": "2022-12-08T21:36:14.758193",
       "children": [
         {
-          "duration": 16,
+          "duration": 0,
           "parent": "softwaredesign",
-          "endDate": "2022-12-08T21:36:14.758193",
           "children": [
             {
-              "duration": 10,
+              "duration": 0,
               "parent": "problems      ",
-              "intervals": [{
-                "duration": 10,
-                "task": "firstlist     ",
-                "startTime": "2022-12-08T21:36:02.732065",
-                "endTime": "2022-12-08T21:36:12.754584"
-              }],
-              "endDate": "2022-12-08T21:36:12.754584",
+              "intervals": [],
               "name": "firstlist     ",
-              "startDate": "2022-12-08T21:36:02.732065"
+              "id": 7
             },
             {
-              "duration": 6,
+              "duration": 0,
               "parent": "problems      ",
-              "intervals": [{
-                "duration": 6,
-                "task": "secondlist    ",
-                "startTime": "2022-12-08T21:36:08.747005",
-                "endTime": "2022-12-08T21:36:14.758193"
-              }],
-              "endDate": "2022-12-08T21:36:14.758193",
+              "intervals": [],
               "name": "secondlist    ",
-              "startDate": "2022-12-08T21:36:08.747005"
+              "id": 8
             }
           ],
           "name": "problems      ",
-          "startDate": "2022-12-08T21:36:02.732065"
+          "id": 5
         },
         {
           "duration": 0,
@@ -50,54 +35,46 @@
               "duration": 0,
               "parent": "timetracker   ",
               "intervals": [],
-              "name": "readhandout   "
+              "name": "readhandout   ",
+              "id": 9
             },
             {
               "duration": 0,
               "parent": "timetracker   ",
               "intervals": [],
-              "name": "firstmilestone"
+              "name": "firstmilestone",
+              "id": 10
             }
           ],
-          "name": "timetracker   "
+          "name": "timetracker   ",
+          "id": 6
         }
       ],
       "name": "softwaredesign",
-      "startDate": "2022-12-08T21:36:02.732065"
+      "id": 1
     },
     {
       "duration": 0,
       "parent": "root          ",
       "children": [],
-      "name": "sofwaretesting"
+      "name": "sofwaretesting",
+      "id": 2
     },
     {
       "duration": 0,
       "parent": "root          ",
       "children": [],
-      "name": "databases     "
+      "name": "databases     ",
+      "id": 3
     },
     {
-      "duration": 10,
+      "duration": 0,
       "parent": "root          ",
-      "intervals": [
-        {
-          "duration": 6,
-          "task": "transportation",
-          "startTime": "2022-12-08T21:35:54.712189",
-          "endTime": "2022-12-08T21:36:00.726677"
-        },
-        {
-          "duration": 4,
-          "task": "transportation",
-          "startTime": "2022-12-08T21:36:16.763649",
-          "endTime": "2022-12-08T21:36:20.773967"
-        }
-      ],
-      "endDate": "2022-12-08T21:36:20.773967",
+      "intervals": [],
       "name": "transportation",
-      "startDate": "2022-12-08T21:35:54.712189"
+      "id": 4
     }
   ],
-  "name": "root          "
+  "name": "root          ",
+  "id": 0
 }
