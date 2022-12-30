@@ -1,0 +1,80 @@
+{
+  "duration": 0,
+  "children": [
+    {
+      "duration": 0,
+      "parent": "root          ",
+      "children": [
+        {
+          "duration": 0,
+          "parent": "softwaredesign",
+          "children": [
+            {
+              "duration": 0,
+              "parent": "problems      ",
+              "intervals": [],
+              "name": "firstlist     ",
+              "id": 7
+            },
+            {
+              "duration": 0,
+              "parent": "problems      ",
+              "intervals": [],
+              "name": "secondlist    ",
+              "id": 8
+            }
+          ],
+          "name": "problems      ",
+          "id": 5
+        },
+        {
+          "duration": 0,
+          "parent": "softwaredesign",
+          "children": [
+            {
+              "duration": 0,
+              "parent": "timetracker   ",
+              "intervals": [],
+              "name": "readhandout   ",
+              "id": 9
+            },
+            {
+              "duration": 0,
+              "parent": "timetracker   ",
+              "intervals": [],
+              "name": "firstmilestone",
+              "id": 10
+            }
+          ],
+          "name": "timetracker   ",
+          "id": 6
+        }
+      ],
+      "name": "softwaredesign",
+      "id": 1
+    },
+    {
+      "duration": 0,
+      "parent": "root          ",
+      "children": [],
+      "name": "sofwaretesting",
+      "id": 2
+    },
+    {
+      "duration": 0,
+      "parent": "root          ",
+      "children": [],
+      "name": "databases     ",
+      "id": 3
+    },
+    {
+      "duration": 0,
+      "parent": "root          ",
+      "intervals": [],
+      "name": "transportation",
+      "id": 4
+    }
+  ],
+  "name": "root          ",
+  "id": 0
+}
