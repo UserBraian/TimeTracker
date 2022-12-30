@@ -1,6 +1,8 @@
 package webserver;
 
 import main.Component;
+import main.IdGenerator;
+import main.Project;
 import main.Task;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +10,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 import search.SearchById;
 
@@ -138,6 +145,33 @@ public class WebServer {
           break;
         }
         // TODO: add new task, project
+        case "add": {
+          String name = tokens[1];
+          int parentId = Integer.parseInt(tokens[2]);
+          String type = tokens[3];
+          String unprocessedTokens = tokens[4];
+
+
+
+          Component parentActivity = findActivityById(parentId);
+          Component newActivity = null;
+          if (type.equals("Project")) {
+            newActivity = new Project(name, parentActivity, new ArrayList<String>(), IdGenerator.getInstance().getId());
+          } else if (type.equals("Task")) {
+            newActivity = new Task(name, parentActivity, new ArrayList<String>(), IdGenerator.getInstance().getId());
+          }
+
+          if (newActivity != null) {
+            String[] processedTokens = unprocessedTokens.split(",");
+            for (String tag : processedTokens) {
+              newActivity.addTag(tag);
+            }
+            body = "{}";
+          } else {
+            body = "{\"error\": \"Type must be Project or Task\"}";
+          }
+          break;
+        }
         // TODO: edit task, project properties
         default:
           assert false;

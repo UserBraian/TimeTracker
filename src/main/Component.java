@@ -106,7 +106,7 @@ public abstract class Component {
     //ABSTRACT, implementado solo en Project, que es el único que puede tener hijos.
   }
 
-  void addTag(String tag) {
+  public void addTag(String tag) {
     this.tags.add(tag);
   }
 
