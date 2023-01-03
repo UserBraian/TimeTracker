@@ -21,6 +21,8 @@ class PageActivities extends StatefulWidget {
 class _PageActivitiesState extends State<PageActivities> {
   late Tree tree;
   late int id;
+  bool isPlayPressed=false;///////////////////////////////////////   BOTON PLAY/STOP. /////////////////////////////////////////
+
 
   @override
   void initState() {
@@ -70,6 +72,7 @@ class _PageActivitiesState extends State<PageActivities> {
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
+        tooltip:'Create new project/task',
       ),
     );
   }
@@ -81,7 +84,7 @@ class _PageActivitiesState extends State<PageActivities> {
     assert (activity is Project || activity is Task);
     if (activity is Project) {
       return ListTile(
-        leading: IconButton(icon: Icon(Icons.info), onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
+        leading: IconButton(icon: Icon(Icons.info),tooltip: 'See information about', onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
         title: Row(
             children: [
               Container(child: Text('${activity.name} ')),
@@ -102,11 +105,30 @@ class _PageActivitiesState extends State<PageActivities> {
       Widget trailing;
       trailing = Text('$strDuration');
       return ListTile(
-        leading: IconButton(icon: Icon(Icons.info), onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
+        leading: IconButton(icon: Icon(Icons.info),tooltip:'See information about', onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
         title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('${activity.name} '),
-              IconButton(icon: Icon(Icons.play_circle_outline_outlined), onPressed:(){/*start(id);*/ Icon(Icons.stop_circle_outlined);})
+              IconButton(icon: (isPlayPressed)?Icon(Icons.stop_circle_outlined):Icon(Icons.play_circle_outline_outlined,),
+                     tooltip:(isPlayPressed)?'Stop current interval':'Start new interval',
+                     onPressed:(){
+                       setState((){
+                         if(isPlayPressed==true){
+                           isPlayPressed=false;
+                         }else{
+                           isPlayPressed=true;
+                         }
+                       });
+                       print('pulsando');//Se muestra en consola
+                       print(isPlayPressed); //se muestra en consola
+                       
+                       if(isPlayPressed==true){
+                           //enviar peticion start?id
+                         }else{
+                           //enviar peticion stop?id
+                         }
+                     }
+                    )
             ]
         ),
         trailing: trailing,
