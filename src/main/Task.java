@@ -26,6 +26,7 @@ public class Task extends Component {
   /*---- ATRIBUTOS ----*/
   private ArrayList<Interval> intervals;
   Duration durationTask = Duration.ZERO; //no lo usamos por ahora
+  private Boolean Active = false;
 
   /*---- CONSTRUCTOR ----*/
   public Task(String name, Component parent, ArrayList<String> tags, int id) {
@@ -61,6 +62,7 @@ public class Task extends Component {
     if (intervals.isEmpty() || intervals.get(intervals.size() - 1).hasEnded()) {
       Interval i = new Interval(this);
       intervals.add(i);
+      this.Active = true;
     } else {
       logger.error(fita1, "Cannot start interval");
     }
@@ -76,6 +78,7 @@ public class Task extends Component {
     int last = intervals.size() - 1;
     Interval i = intervals.get(last);
     i.stop();
+    this.Active = false;
     logger.info(fita1, "Paramos tarea: " + this.getName());
   }
   
@@ -105,6 +108,13 @@ public class Task extends Component {
     v.visitTask(this, getParent());
   }
 
+  public Boolean getActive() {
+    return Active;
+  }
+
+  public void setActive(Boolean name) {
+    this.Active = name;
+  }
   @Override
   public JSONObject toJson(int level) {
     JSONObject json = new JSONObject();
@@ -115,6 +125,7 @@ public class Task extends Component {
     json.put("startTime", this.getStartDate());
     json.put("endTime", this.getEndDate());
     json.put("duration", this.getDuration().toSeconds());
+    json.put("active", this.getActive());
     if (this.getParent() != null) {
       json.put("parent", this.getParent().getName());
     }
