@@ -6,7 +6,7 @@ import 'PageIntervals.dart';
 import 'PageReport.dart';
 import 'info.dart';
 import 'creation.dart';
-//import 'requests.dart';
+import 'requests.dart';
 
 class PageActivities extends StatefulWidget {
   final int id;
@@ -19,10 +19,11 @@ class PageActivities extends StatefulWidget {
 }
 
 class _PageActivitiesState extends State<PageActivities> {
-  late Tree tree;
+  late Future<Tree> tree;
   late int id;
-  bool isPlayPressed=false;///////////////////////////////////////   BOTON PLAY/STOP. /////////////////////////////////////////
-
+  bool isPlayPressed = false;
+  final DateFormat formatter = DateFormat('dd-MM-yy hh:mm:ss');
+  
 
   @override
   void initState() {
@@ -33,48 +34,66 @@ class _PageActivitiesState extends State<PageActivities> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));//////////////temporal
+    return FutureBuilder<Tree>(future: tree, builder: (context, snapshot){
+      if (snapshot.hasData) {
+        final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));//////////////temporal
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(tree.root.name),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.home),
-              onPressed: () {
-                while (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                }
-                PageActivities(0, "root");
-              }
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text(snapshot.data!.root.name),
+            actions: <Widget>[
+              IconButton(icon: Icon(Icons.home),
+                  onPressed: () {
+                    while (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    }
+                    PageActivities(0, "root");
+                  }
+              ),
+              IconButton(icon: Icon(Icons.report),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),
+                    ));
+                  }
+              ),
+            ],
           ),
-          IconButton(icon: Icon(Icons.report),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),
-                ));
-              }
+          body: ListView.separated(
+            // it's like ListView.builder() but better
+            // because it includes a separator between items
+            padding: const EdgeInsets.all(16.0),
+            itemCount: snapshot.data!.root.children.length,
+            itemBuilder: (BuildContext context, int index) =>
+                Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blueAccent,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child:_buildRow(snapshot.data!.root.children[index], index)),
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
           ),
-        ],
-      ),
-      body: ListView.separated(
-        // it's like ListView.builder() but better
-        // because it includes a separator between items
-        padding: const EdgeInsets.all(16.0),
-        itemCount: tree.root.children.length,
-        itemBuilder: (BuildContext context, int index) =>
-            _buildRow(tree.root.children[index], index),
-        separatorBuilder: (BuildContext context, int index) =>
-        const Divider(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _navigateDownCreation(tree.root);
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
-        tooltip:'Create new project/task',
-      ),
-    );
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _navigateDownCreation(snapshot.data!.root);
+            },
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.add),
+          ),
+        );
+      }else if (snapshot.hasError) {
+        return Text("${snapshot.error}");
+      }
+      return Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.amber,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ));
+    });
   }
 
   Widget _buildRow(Activity activity, int index) {
@@ -84,7 +103,7 @@ class _PageActivitiesState extends State<PageActivities> {
     assert (activity is Project || activity is Task);
     if (activity is Project) {
       return ListTile(
-        leading: IconButton(icon: Icon(Icons.info),tooltip: 'See information about', onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
+        leading: IconButton(icon: Icon(Icons.info),color: Colors.indigo, onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
         title: Row(
             children: [
               Container(child: Text('${activity.name} ')),
@@ -105,34 +124,37 @@ class _PageActivitiesState extends State<PageActivities> {
       Widget trailing;
       trailing = Text('$strDuration');
       return ListTile(
-        leading: IconButton(icon: Icon(Icons.info),tooltip:'See information about', onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
+        leading: IconButton(icon: Icon(Icons.info),color: Colors.indigo, onPressed:(){_navigateDownInfo(activity.id, activity.name);}),
         title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('${activity.name} '),
-              IconButton(icon: (isPlayPressed)?Icon(Icons.stop_circle_outlined):Icon(Icons.play_circle_outline_outlined,),
-                     tooltip:(isPlayPressed)?'Stop current interval':'Start new interval',
-                     onPressed:(){
-                       setState((){
-                         if(isPlayPressed==true){
-                           isPlayPressed=false;
-                         }else{
-                           isPlayPressed=true;
-                         }
-                       });
-                       print('pulsando');//Se muestra en consola
-                       print(isPlayPressed); //se muestra en consola
-                       
-                       if(isPlayPressed==true){
-                           //enviar peticion start?id
-                         }else{
-                           //enviar peticion stop?id
-                         }
-                     }
-                    )
-            ]
+              IconButton(icon: (activity.active)?Icon(Icons.stop_circle_outlined):Icon(Icons.play_circle_outline_outlined,),
+                  tooltip:(activity.active)?'Stop current interval':'Start new interval',
+                  color: (activity.active)?Colors.red:Colors.green,
+                  onPressed:(){
+                    setState((){
+                      if(activity.active==true){
+                        activity.active=false;
+                      }else{
+                        activity.active=true;
+                      }
+                    });
+                    print('pulsando');//Se muestra en consola
+                    print(isPlayPressed); //se muestra en consola
+
+                    if(activity.active==true){
+                      //enviar peticion start?id
+                      start(activity.id);
+                    }else{
+                      //enviar peticion stop?id
+                      stop(activity.id);
+                    }
+                  }
+              )
+              ]
         ),
         trailing: trailing,
-        onTap: () => _navigateDownIntervals(index),
+        onTap: () => _navigateDownIntervals(activity.id, activity.name),
         // TODO, navigate down to show intervals
         onLongPress: () {},
         // TODO start/stop counting the time for this task
@@ -152,9 +174,9 @@ class _PageActivitiesState extends State<PageActivities> {
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageActivities(id, name)));
   }
 
-  void _navigateDownIntervals(int childId) {
+  void _navigateDownIntervals(int id, String name) {
     Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (context) => PageIntervals())
+        .push(MaterialPageRoute<void>(builder: (context) => PageIntervals(id, name))
     );
 
   }

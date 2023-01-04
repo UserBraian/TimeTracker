@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'tree.dart';
 import 'PageActivities.dart';
+import 'requests.dart';
 
 class PageInfor extends StatefulWidget {
   final int id;
@@ -14,7 +15,7 @@ class PageInfor extends StatefulWidget {
 }
 
 class _PageInforState extends State<PageInfor> {
-  late Tree tree;
+  late Future<Tree> tree;
   late int id;
 
   @override
@@ -25,49 +26,62 @@ class _PageInforState extends State<PageInfor> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(tree.root.name),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.home),
-                onPressed: () {
-                  while (Navigator.of(context).canPop()) {
-                    Navigator.of(context).pop();
-                  }
-                  PageActivities(0, "root");
-                } // TODO go home page = root
+    return FutureBuilder<Tree>(future: tree, builder: (context, snapshot){
+      if (snapshot.hasData) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(snapshot.data!.root.name),
+              actions: <Widget>[
+                IconButton(icon: Icon(Icons.home),
+                    onPressed: () {
+                      while (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop();
+                      }
+                      PageActivities(0, "root");
+                    } // TODO go home page = root
+                ),
+                //TODO other actions
+              ],
             ),
-            //TODO other actions
-          ],
-        ),
-        body: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(30),
-            child: Column(
-                children: <Widget>[
-                  Row(
-                      children: <Widget>[Text('Nombre: ${tree.root.name}')]
-                  ),
-                  Row(
-                      children: <Widget>[Text('Fecha Inicial: ${tree.root.initialDate}')]
-                  ),
-                  Row(
-                      children: <Widget>[Text('Fecha Final: ${tree.root.finalDate}')]
-                  ),
-                  Row(
-                      children: <Widget>[Text('Duracion: ${tree.root.duration}')]
-                  ),
-                  Row(
-                      children: <Widget>[
-                        IconButton(icon: Icon(Icons.delete), onPressed:(){/*delete activity*/}),
-                        Text(' '),
-                        IconButton(icon: Icon(Icons.edit), onPressed:(){_openPopup(context);})]
+            body: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(30),
+                child: Column(
+                    children: <Widget>[
+                      Row(
+                          children: <Widget>[Text('Nombre: ${snapshot.data!.root.name}')]
+                      ),
+                      Row(
+                          children: <Widget>[Text('Fecha Inicial: ${snapshot.data!.root.initialDate}')]
+                      ),
+                      Row(
+                          children: <Widget>[Text('Fecha Final: ${snapshot.data!.root.finalDate}')]
+                      ),
+                      Row(
+                          children: <Widget>[Text('Duracion: ${snapshot.data!.root.duration}')]
+                      ),
+                      Row(
+                          children: <Widget>[
+                            IconButton(icon: Icon(Icons.delete), onPressed:(){/*delete activity*/}),
+                            Text(' '),
+                            IconButton(icon: Icon(Icons.edit), onPressed:(){_openPopup(context);})]
 
-                  )
-                ]
+                      )
+                    ]
+                )
             )
-        )
-    );
+        );
+      }else if (snapshot.hasError) {
+        return Text("${snapshot.error}");
+      }
+      return Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.amber,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ));
+    });
+
   }
   void _openPopup(context) {
     //Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageFormulario(id, name)));

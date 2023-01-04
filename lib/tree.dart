@@ -6,6 +6,7 @@ final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd HH:mm:ss");
 
 abstract class Activity {
   late int id;
+  late bool active;
   late String name;
   DateTime? initialDate;
   DateTime? finalDate;
@@ -15,33 +16,35 @@ abstract class Activity {
   Activity.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        initialDate = json['initialDate']==null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']),
+        initialDate = json['startTime']==null ? null : DateFormat("yyyy-MM-dd hh:mm:ss").parse(json['startTime']),
+        finalDate = json['endTime']==null ? null : DateFormat("yyyy-MM-dd hh:mm:ss").parse(json['endTime']),
         duration = json['duration'];
 }
 
 
 class Project extends Activity {
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    if (json.containsKey('activities')) {
+    if (json.containsKey('children')) {
       // json has only 1 level because depth=1 or 0 in time_tracker
-      for (Map<String, dynamic> jsonChild in json['activities']) {
-        if (jsonChild['class'] == "project") {
+      for (Map<String, dynamic> jsonChild in json['children']) {
+        if (jsonChild['type'] == "Project") {
           children.add(Project.fromJson(jsonChild));
           // condition on key avoids infinite recursion
-        } else if (jsonChild['class'] == "task") {
+        } else if (jsonChild['type'] == "Task") {
           children.add(Task.fromJson(jsonChild));
         } else {
           assert(false);
         }
       }
     }
+    else{
+      print("este");
+    }
   }
 }
 
 
 class Task extends Activity {
-  late bool active;
   Task.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     active = json['active'];
     for (Map<String, dynamic> jsonChild in json['intervals']) {
@@ -52,18 +55,17 @@ class Task extends Activity {
 
 
 class Intervalo {
-  late int id;
+  //late int id;
   DateTime? initialDate;
   DateTime? finalDate;
   late int duration;
-  late bool active;
-
+  //late bool active2;
   Intervalo.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        initialDate = json['initialDate']==null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']),
-        duration = json['duration'],
-        active = json['active'];
+      : //id = json['id'],
+        initialDate = json['startTime']==null ? null : _dateFormatter.parse(json['startTime']),
+        finalDate = json['endTime']==null ? null : _dateFormatter.parse(json['endTime']),
+        duration = json['duration'];
+        //active2 = json['active'];
 }
 
 
@@ -73,8 +75,8 @@ class Tree {
   Tree(Map<String, dynamic> dec) {
     // 1 level tree, root and children only, root is either Project or Task. If Project
     // children are Project or Task, that is, Activity. If root is Task, children are Interval.
-    assert (dec['class'] == "project" || dec['class']=='task');
-    if (dec['class'] == "project") {
+    assert (dec['type'] == "Project" || dec['type']=='Task');
+    if (dec['type'] == "Project") {
       root = Project.fromJson(dec);
     } else {
       root = Task.fromJson(dec);
@@ -82,7 +84,7 @@ class Tree {
   }
 }
 
-
+/*
 Tree getTree(int id) {
   String strJson = "{"
       "\"name\":\"root\", \"class\":\"project\", \"id\":0, \"initialDate\":\"2020-09-22 16:04:56\", \"finalDate\":\"2020-09-22 16:05:22\", \"duration\":26,"
@@ -110,8 +112,8 @@ Tree getTree(int id) {
     }
   }
   return tree;
-}
-
+}*/
+/*
 testLoadTree() {
   Tree tree = getTree(0);
   print("root name ${tree.root.name}, duration ${tree.root.duration}");
@@ -123,7 +125,7 @@ testLoadTree() {
       }
     }
   }
-}
+}*/
 
 
 //void main() {
