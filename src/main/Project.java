@@ -2,6 +2,7 @@ package main;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ public class Project extends Component {
 
   /*---- ATRIBUTOS ----*/
   public ArrayList<Component> children;
+  private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
   /*---- CONSTRUCTOR ----*/
   public Project(String name, Component parent, ArrayList<String> tags, int id) {
@@ -93,8 +95,8 @@ public class Project extends Component {
     json.put("id", this.getId());
     json.put("type", this.getClass().getSimpleName());
     json.put("name", this.getName());
-    json.put("startTime", this.getStartDate());
-    json.put("endTime", this.getEndDate());
+    json.put("startTime", this.getStartDate() == null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getStartDate()));
+    json.put("endTime", this.getEndDate()== null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getEndDate()));
     json.put("duration", this.getDuration().toSeconds());
     if (this.getParent() != null) {
       json.put("parent", this.getParent().getName());

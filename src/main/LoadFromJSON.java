@@ -102,7 +102,7 @@ public class LoadFromJSON {
       LocalDateTime endTime = getlocaldatetimefromjson(jsonInterval, "endTime");
       Duration duration = Duration.ofSeconds(getlongfromjson(jsonInterval, "duration"));
 
-      Interval interval = new Interval(startTime, endTime, duration, task/*, id*/);
+      Interval interval = new Interval(startTime, endTime, duration, task, id);
       intervals.add(interval);
     }
 

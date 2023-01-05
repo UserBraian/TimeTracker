@@ -6,6 +6,7 @@ import static java.time.Duration.between;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,7 +25,8 @@ public class Interval implements Observer {
   private Duration duration;
   private boolean end;
   private Task taskParent;
-  //private int id;
+  private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+  private int id;
 
   /*---- CONSTRUCTOR ----*/
   public Interval(Task parent) {
@@ -32,14 +34,16 @@ public class Interval implements Observer {
     taskParent = parent;
     Clock.getInstance().addObserver(this);
     startTime = Clock.getInstance().getHour();
+    id = IdGenerator.getInstance().getId();
   }
 
-  public Interval(LocalDateTime startTime, LocalDateTime endTime, Duration duration, Task task/*, int id*/) {
-    //this.id = id;
+  public Interval(LocalDateTime startTime, LocalDateTime endTime, Duration duration, Task task, int id) {
+    this.id = id;
     this.startTime = startTime;
     this.endTime = endTime;
     this.duration = duration;
     this.taskParent = task;
+    this.end = false;
   }
 
   /*---- MÉTODOS ----*/
@@ -51,6 +55,10 @@ public class Interval implements Observer {
 
   public LocalDateTime getStartTime() {
     return this.startTime;
+  }
+
+  public int getid() {
+    return this.id;
   }
 
   public LocalDateTime getEndTime() {
@@ -118,9 +126,11 @@ public class Interval implements Observer {
   public JSONObject toJson() {
     JSONObject json = new JSONObject();
 
-    json.put("startTime", this.getStartTime());
-    json.put("endTime", this.getEndTime());
+    json.put("startTime", this.getStartTime()== null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getStartTime()));
+    json.put("endTime", this.getEndTime()== null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getEndTime()));
     json.put("duration", this.getDuration().toSeconds());
+    json.put("end", this.hasEnded());
+    json.put("id", this.getid());
     if (this.getTaskParent() != null) {
       json.put("task", this.getTaskParent().getName());
     }

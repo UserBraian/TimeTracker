@@ -2,7 +2,9 @@ package main;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ public class Task extends Component {
   private ArrayList<Interval> intervals;
   Duration durationTask = Duration.ZERO; //no lo usamos por ahora
   private Boolean Active = false;
+  private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
   /*---- CONSTRUCTOR ----*/
   public Task(String name, Component parent, ArrayList<String> tags, int id) {
@@ -122,8 +125,8 @@ public class Task extends Component {
     json.put("id", this.getId());
     json.put("type", this.getClass().getSimpleName());
     json.put("name", this.getName());
-    json.put("startTime", this.getStartDate());
-    json.put("endTime", this.getEndDate());
+    json.put("startTime", this.getStartDate() == null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getStartDate()));
+    json.put("endTime", this.getEndDate()== null ? null : DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(this.getEndDate()));
     json.put("duration", this.getDuration().toSeconds());
     json.put("active", this.getActive());
     if (this.getParent() != null) {
