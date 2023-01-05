@@ -12,12 +12,14 @@ abstract class Activity {
   DateTime? finalDate;
   late int duration;
   List<dynamic> children = List<dynamic>.empty(growable: true);
+  List<dynamic> tags = List<dynamic>.empty();
 
   Activity.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        initialDate = json['startTime']==null ? null : DateFormat("yyyy-MM-dd hh:mm:ss").parse(json['startTime']),
-        finalDate = json['endTime']==null ? null : DateFormat("yyyy-MM-dd hh:mm:ss").parse(json['endTime']),
+        initialDate = json['startTime']==null ? null : _dateFormatter.parse(json['startTime']),
+        finalDate = json['endTime']==null ? null : _dateFormatter.parse(json['endTime']),
+        tags = json['tags'] ?? null,
         duration = json['duration'];
 }
 
@@ -55,17 +57,17 @@ class Task extends Activity {
 
 
 class Intervalo {
-  //late int id;
+  late int id;
   DateTime? initialDate;
   DateTime? finalDate;
   late int duration;
-  //late bool active2;
+  late bool active;
   Intervalo.fromJson(Map<String, dynamic> json)
-      : //id = json['id'],
+      : id = json['id'],
         initialDate = json['startTime']==null ? null : _dateFormatter.parse(json['startTime']),
         finalDate = json['endTime']==null ? null : _dateFormatter.parse(json['endTime']),
-        duration = json['duration'];
-        //active2 = json['active'];
+        duration = json['duration'],
+        active = json['end'];
 }
 
 

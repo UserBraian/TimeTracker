@@ -61,6 +61,9 @@ class _PageInforState extends State<PageInfor> {
                           children: <Widget>[Text('Duracion: ${snapshot.data!.root.duration}')]
                       ),
                       Row(
+                          children: <Widget>[Text('tags: ${snapshot.data!.root.tags}')]
+                      ),
+                      Row(
                           children: <Widget>[
                             IconButton(icon: Icon(Icons.delete), onPressed:(){/*delete activity*/}),
                             Text(' '),

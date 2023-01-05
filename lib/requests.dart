@@ -60,7 +60,7 @@ Future<void> stop(int id) async {
   }
 }
 
-Future<void> add(String name, String parent, String tag, String type) async {
+Future<void> add(String name, int parent, String tag, String type) async {
 
   String finalString = tag.replaceAll(" ", "");
 

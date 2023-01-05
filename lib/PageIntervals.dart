@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
+import 'info.dart';
 import 'tree.dart';
 import 'PageActivities.dart';
 import 'requests.dart';
@@ -30,12 +33,15 @@ class _PageIntervalsState extends State<PageIntervals> {
   late int id;
   late Future<Tree> tree;
   bool isPlayPressed=false;
+  late Timer _timer;
+  static const int periodeRefresh = 1;
 
   @override
   void initState() {
     super.initState();
     id = widget.id;
     tree = getTree(id);
+    _activateTimer();
     // the root is a task and the children its intervals
   }
 
@@ -89,6 +95,13 @@ class _PageIntervalsState extends State<PageIntervals> {
                       }else{
                         snapshot.data!.root.active=true;
                       }
+                      if(snapshot.data!.root.active==true){
+                        //enviar peticion start?id
+                        start(snapshot.data!.root.id);
+                      }else{
+                        //enviar peticion stop?id
+                        stop(snapshot.data!.root.id);
+                      }
                     });}
                 )
             )
@@ -112,9 +125,66 @@ class _PageIntervalsState extends State<PageIntervals> {
     // this removes the microseconds part
     String strFinalDate = interval.finalDate.toString().split('.')[0];
     return ListTile(
-      leading: Icon(Icons.query_builder_outlined),
-      title: Text('from ${strInitialDate} to ${strFinalDate}'),
+      leading: interval.active == false ? const Icon(color: Colors.green, Icons.query_builder_outlined): IconButton(color: Colors.indigo, onPressed: (){_openPopup(context, interval); }, icon: const Icon(Icons.info)),
+      title: Text('intervalo ${index + 1}'),
       trailing: Text('$strDuration'),
+    );
+  }
+  void _activateTimer() {
+    _timer = Timer.periodic(Duration(seconds: periodeRefresh), (Timer t) {
+      tree = getTree(id);
+      setState(() {
+
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _refresh() async {
+    tree = getTree(id);
+    setState(() {});
+  }
+
+  void _openPopup(context, Intervalo interval) {
+    //Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageFormulario(id, name)));
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(30),
+            child: Column(
+                children: <Widget>[
+                  Row(
+                      children: <Widget>[Text('Fecha Inicial: ${interval.initialDate}')]
+                  ),
+                  Row(
+                      children: <Widget>[Text('Fecha Final: ${interval.finalDate}')]
+                  ),
+                  Row(
+                      children: <Widget>[Text('Duracion: ${interval.duration}')]
+                  ),
+                ]
+            )
+        ),
+        //content: const Text("You have raised a Alert Dialog Box"),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              child: const Text("salir"),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

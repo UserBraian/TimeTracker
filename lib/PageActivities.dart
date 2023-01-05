@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
@@ -23,13 +25,16 @@ class _PageActivitiesState extends State<PageActivities> {
   late int id;
   bool isPlayPressed = false;
   final DateFormat formatter = DateFormat('dd-MM-yy hh:mm:ss');
-  
+  late Timer _timer;
+  static const int periodeRefresh = 1;
+
 
   @override
   void initState() {
     super.initState();
     id = widget.id;
     tree = getTree(id);
+    _activateTimer();
   }
 
   @override
@@ -163,21 +168,43 @@ class _PageActivitiesState extends State<PageActivities> {
   }
 
   void _navigateDownCreation(Activity parent) {
+    _timer.cancel();
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageCreation(parent)));
+    _activateTimer();
+    _refresh();
   }
 
   void _navigateDownInfo(int id, String name) {
+    _timer.cancel();
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageInfor(id, name)));
+    _activateTimer();
+    _refresh();
   }
 
   void _navigateDownP(int id, String name) {
+    _timer.cancel();
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageActivities(id, name)));
+    _activateTimer();
+    _refresh();
   }
 
   void _navigateDownIntervals(int id, String name) {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (context) => PageIntervals(id, name))
     );
+    _activateTimer();
+    _refresh();
+  }
 
+  void _refresh() async {
+    tree = getTree(id);
+    setState(() {});
+  }
+
+  void _activateTimer() {
+    _timer = Timer.periodic(Duration(seconds: periodeRefresh), (Timer t) {
+      tree = getTree(id);
+      setState(() {});
+    });
   }
 }
