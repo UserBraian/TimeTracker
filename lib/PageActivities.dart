@@ -57,12 +57,22 @@ class _PageActivitiesState extends State<PageActivities> {
                     PageActivities(0, "root");
                   }
               ),
-              IconButton(icon: Icon(Icons.report),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),
-                    ));
-                  }
+              IconButton(///////////////////////////Icono Search//////////////////////////
+                tooltip:'Search tag',
+                icon:Icon(Icons.search),
+                onPressed:(){
+                  showSearch(
+                    context:context,
+                    delegate: MySearchDelegate(),
+                  );
+                }
               ),
+              /*IconButton(
+                icon: Icon(Icons.report),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),));
+                }
+              ),*/
             ],
           ),
           body: ListView.separated(
@@ -206,5 +216,46 @@ class _PageActivitiesState extends State<PageActivities> {
       tree = getTree(id);
       setState(() {});
     });
+  }
+}
+
+
+///////////////classe para search/////////////////////////////////////////////SEARCH CLASS/////
+class MySearchDelegate extends SearchDelegate{
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+ 
+  // second overwrite to pop out of search menu
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+ 
+  // third overwrite to show query result
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    
+    return Container();
+  }
+  
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    return Container();
   }
 }
