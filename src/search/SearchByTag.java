@@ -34,6 +34,13 @@ public class SearchByTag implements Visitor {
     this.tagInComponent = new ArrayList<>();
   }
 
+  /////////getter//////////////////////
+  public ArrayList<Component> getTags(Component root){
+    root.acceptVisitor(this);
+    System.out.println(this.tagToSearch);
+    return getComponents();
+  }
+
   @Override
   public void visitProject(Project project, Component parent) {
     logger.trace(fita2, "Buscando en proyecto: " + project.getName()); //CAMBIAR O QUITAR
@@ -66,4 +73,5 @@ public class SearchByTag implements Visitor {
   public void visitInterval(Interval interval, Component parent) {
     //No se implementa, ya que intervalos no tiene tags
   }
+  public ArrayList<Component> getComponents(){return this.tagInComponent;}
 }

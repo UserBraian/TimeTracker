@@ -83,19 +83,19 @@ public class Main {
     logger.info(fita2, "Comienza la Fita2\n");
 
     /*---- BUSCAR TAG  ----*/
-    /*
+
     logger.info(fita2, "Empezamos a la busqueda por tags: ");
     ArrayList<String> tags = new ArrayList<String>(
-        Arrays.asList("java", "JAVA", "intellij", "c++", "python"));
+        Arrays.asList("java"));
     for (String tagToSearch : tags) {
-      Visitor searchByTag = new SearchByTag(tagToSearch);
+      SearchByTag searchByTag = new SearchByTag(tagToSearch);
       root.acceptVisitor(searchByTag);
-      System.out.println();
+      System.out.println(searchByTag.getComponents());
     }
     logger.info(fita2, "Fin de busqueda por tags :)");
 
     logger.info(fita2, "Acaba la Fita2");
 
-    logger.info("Acaba la ejecucion del Time Tracker");*/
+    logger.info("Acaba la ejecucion del Time Tracker");
   }
 }

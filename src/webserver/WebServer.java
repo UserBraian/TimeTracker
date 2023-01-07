@@ -1,9 +1,7 @@
 package webserver;
 
-import main.Component;
-import main.IdGenerator;
-import main.Project;
-import main.Task;
+import main.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import search.SearchById;
+import search.SearchByTag;
 
 // Based on
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -170,6 +172,28 @@ public class WebServer {
           } else {
             body = "{\"error\": \"Type must be Project or Task\"}";
           }
+          break;
+        }
+        case "search_tag": {
+          int id = Integer.parseInt(tokens[1]);
+          String tag = tokens[2];
+          Component activity = findActivityById(id);
+          assert (activity != null);
+          SearchByTag search = new SearchByTag(tag);
+          ArrayList<Component> projectComponList = search.getTags(activity);
+
+          JSONArray jsonProjectComponents = new JSONArray();
+          for (Component projectComponent : projectComponList) {
+            jsonProjectComponents.put(projectComponent.toJson(1));
+          }
+
+          System.out.println(jsonProjectComponents.length());
+          System.out.println(projectComponList.size());
+
+          JSONObject json = new JSONObject();
+          json.put("search", jsonProjectComponents);
+          System.out.println(json.toString());
+          body = json.toString();
           break;
         }
         // TODO: edit task, project properties

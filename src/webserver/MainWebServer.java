@@ -23,8 +23,8 @@ public class MainWebServer {
 
   static Component makeTreeCourses() {
     IdGenerator idgen = IdGenerator.getInstance();
-    Project root = new Project("root          ", null, new ArrayList<String>(), idgen.getId());
-
+    Project root = new Project(" HOME ", null, new ArrayList<String>(), idgen.getId());
+    /*
     Project softwaredesign = new Project("softwaredesign", root,
             new ArrayList<String>(Arrays.asList("java", "flutter")), idgen.getId());
 
@@ -41,6 +41,7 @@ public class MainWebServer {
     Project timetracker = new Project("timetracker   ", softwaredesign, new ArrayList<String>(), idgen.getId());
 
     Task firstlist = new Task("firstlist     ", problems,
+
             new ArrayList<String>(Arrays.asList("java")), idgen.getId());
 
     Task secondlist = new Task("secondlist    ", problems,
@@ -50,6 +51,8 @@ public class MainWebServer {
 
     Task firstmilestone = new Task("firstmilestone", timetracker,
             new ArrayList<String>(Arrays.asList("Java", "IntelliJ")), idgen.getId());
+
+     */
     return root;
   }
 }
