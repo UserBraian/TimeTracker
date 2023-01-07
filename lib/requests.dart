@@ -74,3 +74,28 @@ Future<void> add(String name, int parent, String tag, String type) async {
     throw Exception('Failed to get children');
   }
 }
+
+Future<List<Map<String, dynamic>>> searchByTag(int id, String tag) async{
+  var uri = Uri.parse("$baseUrl/search_tag?$id?$tag");
+  final response = await client.get(uri);
+
+  List<Map<String, dynamic>> activityList = [];
+
+  if(response.statusCode == 200){
+    print(response.body);
+
+    Map<String, dynamic> decoded = convert.jsonDecode(response.body);
+
+    List<dynamic> data = decoded["search"];
+
+    for(int i = 0; i<data.length; i++) {
+      activityList.add(data[i]);
+    }
+
+    return activityList;
+  }
+  else {
+    print("statusCode=${response.statusCode}");
+    throw Exception("Failed to get children");
+  }
+}

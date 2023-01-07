@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
@@ -58,20 +59,20 @@ class _PageActivitiesState extends State<PageActivities> {
                   }
               ),
               IconButton(///////////////////////////Icono Search//////////////////////////
-                tooltip:'Search tag',
-                icon:Icon(Icons.search),
-                onPressed:(){
-                  showSearch(
-                    context:context,
-                    delegate: MySearchDelegate(),
-                  );
-                }
+                  tooltip:'Search tag',
+                  icon:Icon(Icons.search),
+                  onPressed:(){
+                    showSearch(
+                      context:context,
+                      delegate: MySearchDelegate(),
+                    );
+                  }
               ),
-              /*IconButton(
-                icon: Icon(Icons.report),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),));
-                }
+              /*IconButton(icon: Icon(Icons.report),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PageReport(),
+                    ));
+                  }
               ),*/
             ],
           ),
@@ -219,8 +220,6 @@ class _PageActivitiesState extends State<PageActivities> {
   }
 }
 
-
-///////////////classe para search/////////////////////////////////////////////SEARCH CLASS/////
 class MySearchDelegate extends SearchDelegate{
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -233,7 +232,7 @@ class MySearchDelegate extends SearchDelegate{
       ),
     ];
   }
- 
+
   // second overwrite to pop out of search menu
   @override
   Widget? buildLeading(BuildContext context) {
@@ -244,18 +243,37 @@ class MySearchDelegate extends SearchDelegate{
       icon: Icon(Icons.arrow_back),
     );
   }
- 
+
   // third overwrite to show query result
   @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    
-    return Container();
+  Widget buildResults(BuildContext context){
+    return FutureBuilder<List<Map<String, dynamic>>>(future: searchByTag(0, query), builder: (context, snapshot){
+      return ListView.builder(
+      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+      itemBuilder: (context, index) => ListTile(
+      title: snapshot.data![index]["type"]== "Task" ? Text(snapshot.data![index]["name"], style: TextStyle(fontSize: 20, color: Colors.grey[800]),) :
+      Row(
+      children: [Image(height:30.0, image:NetworkImage('https://cdn-icons-png.flaticon.com/512/8291/8291136.png')),
+      Container(child: Text(" " + snapshot.data![index]["name"], style: TextStyle(fontSize: 20, color: Colors.grey[800]),))
+      ]
+      ),
+    onTap: () {
+    Navigator.of(context).pop();
+    if(snapshot.data![index]["type"] == "Project") {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PageActivities(snapshot.data![index]["id"], snapshot.data![index]["name"])));
+    } else {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PageIntervals(snapshot.data![index]["id"], snapshot.data![index]["name"])));
+    }
+    },
+    ),
+    itemCount: snapshot.data!.length,);
+    }
+    );
   }
-  
+
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
     return Container();
   }
+
 }
